@@ -1,0 +1,29 @@
+{
+    "name": "edwrodrig/image",
+    "authors": [
+        {
+            "name": "Edwin Rodríguez",
+            "email": "edwrodrig@gmail.com"
+        }
+    ],
+    "minimum-stability" : "stable",
+    "require": {
+        "php" : "^7.2",
+    },
+    "require-dev" : {
+        "phpunit/phpunit" : "^6.4"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "edwrodrig\\image\\" : "src/"
+        }
+    },
+    "archive" : {
+        "exclude" : [
+            ".idea",
+            ".gitignore",
+            "phpunit.xml.dist",
+            "tests"
+        ]
+    }
+}
