@@ -15,8 +15,12 @@ class Image
     public static function create_thumbnail(string $filename, int $columns, int $rows) : Imagick {
         $img = new Imagick($filename);
         $img->scaleImage($columns, $rows , \Imagick::FILTER_GAUSSIAN , 1.5);
+        $img->setImageCompression(\Imagick::COMPRESSION_JPEG);
         $img->setImageType(\Imagick::IMGTYPE_GRAYSCALE);
-        $img->setCompressionQuality(40);
+        $img->setImageFormat('jpeg');
+        $img->gaussianBlurImage(0, 1);
+        $img->setSamplingFactors(['2x2', '1x1', '1x1']);
+        $img->setImageCompressionQuality(40);
         $img->stripImage();
 
         return $img;
@@ -30,7 +34,7 @@ class Image
             $img->stripImage();
         } else if ($img->getFormat() === 'jpeg') {
             $img->setSamplingFactors(['2x2', '1x1', '1x1']);
-            $img->setCompressionQuality(75);
+            $img->setImageCompressionQuality(75);
             $img->stripImage();
         }
 
