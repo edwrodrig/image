@@ -26,3 +26,14 @@ $img->writeImage(__DIR__ . '/ssj_thumb.jpg');
 $img = Image::optimize(__DIR__ . '/ssj.png');
 $img->scaleImage(500, 200, \Imagick::FILTER_LANCZOS, 1);
 $img->writeImage(__DIR__ . '/ssj_del.png');
+
+$img = Image::create_thumbnail(__DIR__ . '/dgz.svg', 100, 100);
+$img->writeImage(__DIR__ . '/dgz_thumb.jpg');
+
+$img = Image::optimize(__DIR__ . '/dgz.svg');
+$img->scaleImage(500, 500, \Imagick::FILTER_LANCZOS, 1);
+$img->writeImage(__DIR__ . '/dgz_del.png');
+
+$img = Image::optimize(__DIR__ . '/dgz.svg');
+$img->scaleImage(1500, 1500, \Imagick::FILTER_LANCZOS, 1);
+$img->writeImage(__DIR__ . '/dgz_del_2.png');

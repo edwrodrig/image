@@ -24,7 +24,8 @@
             ".idea",
             ".gitignore",
             "phpunit.xml.dist",
-            "tests"
+            "tests",
+            "examples"
         ]
     }
 }
