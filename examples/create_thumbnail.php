@@ -37,3 +37,7 @@ $img->writeImage(__DIR__ . '/dgz_del.png');
 $img = Image::optimize(__DIR__ . '/dgz.svg');
 $img->scaleImage(1500, 1500, \Imagick::FILTER_LANCZOS, 1);
 $img->writeImage(__DIR__ . '/dgz_del_2.png');
+
+$img = Image::optimize(__DIR__ . '/browser.svg', 100);
+$img->scaleImage(500, 500, \Imagick::FILTER_LANCZOS, 1);
+$img->writeImage(__DIR__ . '/browser_del.png');

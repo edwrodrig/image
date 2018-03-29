@@ -27,16 +27,22 @@ class Image
     }
 
 
-    public static function optimize(string $filename) : Imagick
+    public static function optimize(string $filename, int $svg_factor = 1) : Imagick
     {
         $img = new Imagick($filename);
-        if ($img->getFormat() === 'png') {
+        $type = mime_content_type($filename);
+
+        if ($type === 'image/png') {
             $img->stripImage();
-        } else if ($img->getFormat() === 'jpeg') {
+        } else if ($type === 'image/jpeg') {
             $img->setSamplingFactors(['2x2', '1x1', '1x1']);
             $img->setImageCompressionQuality(75);
             $img->stripImage();
-        } else if ( $img->getFormat() === 'svg' ) {
+        } else if ($type === 'image/svg+xml' ) {
+            $resolution = $img->getImageResolution();
+            $img->removeImage();
+            $img->setResolution($resolution['x'] * $svg_factor, $resolution['y'] * $svg_factor);
+            $img->readImage($filename);
         }
 
         return $img;
