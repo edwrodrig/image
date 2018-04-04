@@ -52,7 +52,28 @@ class Image
         if ( $width == 0 || $height == 0 ) {
             $img->scaleImage($width, $height);
         } else {
-            $img->cropThumbnailImage($width, $height);
+            $w = $img->getImageWidth();
+            $h = $img->getImageHeight();
+
+            $resize_h_w = $w * $height / $h;
+            $resize_h_h = $height;
+
+            $resize_w_w = $width;
+            $resize_w_h = $h * $width / $w;
+
+
+
+            if ( $resize_h_w > $width ) {
+                $resize_w = $resize_h_w;
+                $resize_h = $resize_h_h;
+            } else {
+                $resize_w = $resize_w_w;
+                $resize_h = $resize_w_h;
+            }
+
+            $img->resizeImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0.9);
+
+            $img->cropImage($width, $height, ($resize_w - $width) / 2, ($resize_h - $height) / 2);
         }
         return $img;
     }
@@ -61,8 +82,27 @@ class Image
         if ( $width == 0 || $height == 0 ) {
             throw new exception\InvalidSizeException($width, $height);
         }
+        $w = $img->getImageWidth();
+        $h = $img->getImageHeight();
+
+        $resize_h_w = $w * $height / $h;
+        $resize_h_h = $height;
+
+        $resize_w_w = $width;
+        $resize_w_h = $h * $width / $w;
+
+        if ( $resize_h_w < $width ) {
+            $resize_w = $resize_h_w;
+            $resize_h = $resize_h_h;
+        } else {
+            $resize_w = $resize_w_w;
+            $resize_h = $resize_w_h;
+        }
+
+        $img->resizeImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0.9);
+
         $img->setImageBackgroundColor($background_color);
-        $img->thumbnailImage($width, $height, true, true);
+        $img->extentImage($width, $height, ($resize_w - $width) / 2, ($resize_h - $height) / 2);
         return $img;
 
 
