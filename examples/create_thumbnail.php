@@ -41,3 +41,14 @@ $img->writeImage(__DIR__ . '/dgz_del_2.png');
 $img = Image::optimize(__DIR__ . '/browser.svg', 100);
 $img->scaleImage(500, 500, \Imagick::FILTER_LANCZOS, 1);
 $img->writeImage(__DIR__ . '/browser_del.png');
+
+$img = Image::optimize(__DIR__ . '/ssj.png');
+$img = Image::cover($img, 200, 200);
+//$img = Image::cover($img, 900, 1328);
+$img->writeImage(__DIR__ . '/ssj_cover.png');
+
+$img = Image::optimize(__DIR__ . '/ssj.png');
+$img = Image::contain($img, 200, 200);
+//$img = Image::contain($img, 900, 1328);
+$img->writeImage(__DIR__ . '/ssj_contain.png');
+

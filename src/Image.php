@@ -48,6 +48,25 @@ class Image
         return $img;
     }
 
+    public static function cover(Imagick $img, int $width, int $height) {
+        if ( $width == 0 || $height == 0 ) {
+            throw new exception\InvalidSizeException($width, $height);
+        }
+        $img->cropThumbnailImage($width, $height);
+        return $img;
+    }
+
+    public static function contain(Imagick $img, int $width, int $height) {
+        if ( $width == 0 || $height == 0 ) {
+            throw new exception\InvalidSizeException($width, $height);
+        }
+        $img->setImageBackgroundColor($img->getImagePixelColor(0,0));
+        $img->thumbnailImage($width, $height, true, true);
+        return $img;
+
+
+    }
+
     public static function compare(string $filename1, string $filename2) {
 
         $img1 = new Imagick($filename1);
