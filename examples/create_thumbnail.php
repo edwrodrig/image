@@ -59,3 +59,14 @@ $img = Image::contain($img, 20, 20, 'red');
 //$img = Image::contain($img, 900, 1328);
 $img->writeImage(__DIR__ . '/favicon_contain.png');
 
+$img = Image::optimize(__DIR__ . '/amanda.svg');
+$img = Image::color_overlay($img, 'red');
+$img = Image::contain($img, 16, 16, 'transparent');
+//$img = Image::contain($img, 900, 1328);
+$img->writeImage(__DIR__ . '/amanda.png');
+
+$img = Image::optimize(__DIR__ . '/amanda.svg');
+$img = Image::color_overlay($img, 'red');
+$img = Image::contain($img, 152, 152, 'transparent');
+//$img = Image::contain($img, 900, 1328);
+$img->writeImage(__DIR__ . '/amanda.png');

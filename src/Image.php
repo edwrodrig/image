@@ -50,6 +50,13 @@ class Image
         return $img;
     }
 
+    public static function color_overlay(Imagick $img, $color) {
+        $overlay = new \Imagick();
+        $overlay->newImage($img->getImageWidth(), $img->getImageHeight(), $color);
+        $overlay->compositeImage($img, Imagick::COMPOSITE_COPYOPACITY, 0, 0);
+        return $overlay;
+    }
+
     public static function cover(Imagick $img, int $width, int $height) {
         if ( $width == 0 || $height == 0 ) {
             $img->scaleImage($width, $height);
@@ -73,7 +80,7 @@ class Image
                 $resize_h = $resize_w_h;
             }
 
-            $img->resizeImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0.9);
+            $img->scaleImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0);
 
             $img->cropImage($width, $height, ($resize_w - $width) / 2, ($resize_h - $height) / 2);
         }
@@ -101,7 +108,7 @@ class Image
             $resize_h = $resize_w_h;
         }
 
-        $img->scaleImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0.9);
+        $img->scaleImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0);
 
         $img->setImageBackgroundColor($background_color);
         $img->extentImage($width, $height, ($resize_w - $width) / 2, ($resize_h - $height) / 2);
