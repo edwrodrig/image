@@ -50,9 +50,10 @@ class Image
 
     public static function cover(Imagick $img, int $width, int $height) {
         if ( $width == 0 || $height == 0 ) {
-            throw new exception\InvalidSizeException($width, $height);
+            $img->scaleImage($width, $height);
+        } else {
+            $img->cropThumbnailImage($width, $height);
         }
-        $img->cropThumbnailImage($width, $height);
         return $img;
     }
 
