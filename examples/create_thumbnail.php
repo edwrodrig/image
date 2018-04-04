@@ -49,7 +49,7 @@ $img = Image::cover($img, 200, 0);
 $img->writeImage(__DIR__ . '/ssj_cover.png');
 
 $img = Image::optimize(__DIR__ . '/ssj.png');
-$img = Image::contain($img, 200, 200);
+$img = Image::contain($img, 200, 200, 'red');
 //$img = Image::contain($img, 900, 1328);
 $img->writeImage(__DIR__ . '/ssj_contain.png');
 

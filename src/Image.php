@@ -57,10 +57,11 @@ class Image
         return $img;
     }
 
-    public static function contain(Imagick $img, int $width, int $height) {
+    public static function contain(Imagick $img, int $width, int $height, $background_color = 'transparent') {
         if ( $width == 0 || $height == 0 ) {
             throw new exception\InvalidSizeException($width, $height);
         }
+        $img->setImageBackgroundColor($background_color);
         $img->thumbnailImage($width, $height, true, true);
         return $img;
 
