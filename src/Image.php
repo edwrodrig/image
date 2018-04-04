@@ -61,7 +61,6 @@ class Image
         if ( $width == 0 || $height == 0 ) {
             throw new exception\InvalidSizeException($width, $height);
         }
-        $img->setImageBackgroundColor($img->getImagePixelColor(0,0));
         $img->thumbnailImage($width, $height, true, true);
         return $img;
 
