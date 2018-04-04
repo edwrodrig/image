@@ -53,3 +53,9 @@ $img = Image::contain($img, 200, 200, 'red');
 //$img = Image::contain($img, 900, 1328);
 $img->writeImage(__DIR__ . '/ssj_contain.png');
 
+
+$img = Image::optimize(__DIR__ . '/favicon.png');
+$img = Image::contain($img, 20, 20, 'red');
+//$img = Image::contain($img, 900, 1328);
+$img->writeImage(__DIR__ . '/favicon_contain.png');
+

@@ -99,7 +99,7 @@ class Image
             $resize_h = $resize_w_h;
         }
 
-        $img->resizeImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0.9);
+        $img->scaleImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0.9);
 
         $img->setImageBackgroundColor($background_color);
         $img->extentImage($width, $height, ($resize_w - $width) / 2, ($resize_h - $height) / 2);
