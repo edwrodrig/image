@@ -43,6 +43,8 @@ class Image
             $img->removeImage();
             $img->setResolution($resolution['x'] * $svg_factor, $resolution['y'] * $svg_factor);
             $img->readImage($filename);
+            $img->setImageBackgroundColor('transparent');
+            $img->trimImage(0);
         }
 
         return $img;
