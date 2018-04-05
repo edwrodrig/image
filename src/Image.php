@@ -27,7 +27,7 @@ class Image
     }
 
 
-    public static function optimize(string $filename, int $svg_factor = 1) : Imagick
+    public static function optimize(string $filename, int $size_hint = 1000) : Imagick
     {
         $img = new Imagick();
         $img->setBackgroundColor(new \ImagickPixel("transparent"));
@@ -41,14 +41,18 @@ class Image
             $img->setImageCompressionQuality(75);
             $img->stripImage();
         } else if ($type === 'image/svg+xml' ) {
-            $resolution = $img->getImageResolution();
-            $img->removeImage();
-            $img->setBackgroundColor(new \ImagickPixel("transparent"));
-            $img->setResolution($resolution['x'] * $svg_factor, $resolution['y'] * $svg_factor);
+            $tempnam_in = tempnam("/tmp", "IN");
+            $tempnam_out = tempnam('/tmp', "OUT");
+            file_put_contents($tempnam_in, file_get_contents($filename));
 
-            $img->readImage($filename);
+            passthru(sprintf("rsvg-convert %s -f png --keep-aspect-ratio -w %s -o %s", $tempnam_in, $size_hint, $tempnam_out));
+
+            $img = new Imagick();
+            $img->setBackgroundColor(new \ImagickPixel("transparent"));
+            $img->readImage($tempnam_out);
+
             $img->setImageBackgroundColor('transparent');
-            $img->trimImage(0);
+            //$img->trimImage(0);
         }
 
         return $img;

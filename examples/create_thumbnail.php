@@ -38,8 +38,8 @@ $img = Image::optimize(__DIR__ . '/sources/dgz.svg');
 $img->scaleImage(1500, 1500, \Imagick::FILTER_LANCZOS, 1);
 $img->writeImage(__DIR__ . '/dgz_del_2.png');
 
-$img = Image::optimize(__DIR__ . '/sources/browser.svg', 100);
-$img->scaleImage(500, 500, \Imagick::FILTER_LANCZOS, 1);
+$img = Image::optimize(__DIR__ . '/sources/browser.svg', 500);
+//$img->scaleImage(500, 500, \Imagick::FILTER_LANCZOS, 1);
 $img->writeImage(__DIR__ . '/browser_del.png');
 
 $img = Image::optimize(__DIR__ . '/sources/ssj.png');
