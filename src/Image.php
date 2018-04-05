@@ -12,6 +12,12 @@ use Imagick;
 
 class Image
 {
+
+    public static function check_svg_converter() : bool {
+        exec('rsvg-convert --help',$output, $return_var);
+        return $return_var == 0;
+    }
+
     public static function create_thumbnail(string $filename, int $columns, int $rows) : Imagick {
         $img = new Imagick($filename);
         $img->setImageFormat('jpeg');
@@ -48,11 +54,12 @@ class Image
             passthru(sprintf("rsvg-convert %s -f png --keep-aspect-ratio -w %s -o %s", $tempnam_in, $size_hint, $tempnam_out));
 
             $img = new Imagick();
-            $img->setBackgroundColor(new \ImagickPixel("transparent"));
+            $img->setBackgroundColor("transparent");
             $img->readImage($tempnam_out);
 
             $img->setImageBackgroundColor('transparent');
-            //$img->trimImage(0);
+            $img->borderImage('transparent', $img->getImageWidth() + 2, $img->getImageHeight() + 2);
+            $img->trimImage(0);
         }
 
         return $img;
