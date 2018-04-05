@@ -29,7 +29,9 @@ class Image
 
     public static function optimize(string $filename, int $svg_factor = 1) : Imagick
     {
-        $img = new Imagick($filename);
+        $img = new Imagick();
+        $img->setBackgroundColor(new \ImagickPixel("transparent"));
+        $img->readImage($filename);
         $type = mime_content_type($filename);
 
         if ($type === 'image/png') {
@@ -41,7 +43,9 @@ class Image
         } else if ($type === 'image/svg+xml' ) {
             $resolution = $img->getImageResolution();
             $img->removeImage();
+            $img->setBackgroundColor(new \ImagickPixel("transparent"));
             $img->setResolution($resolution['x'] * $svg_factor, $resolution['y'] * $svg_factor);
+
             $img->readImage($filename);
             $img->setImageBackgroundColor('transparent');
             $img->trimImage(0);
