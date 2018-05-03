@@ -5,6 +5,10 @@ use Imagick;
 
 class Image
 {
+    /**
+     * @var Imagick
+     */
+    private $imagick;
 
     public static function check_svg_converter() : bool {
         exec('rsvg-convert --help',$output, $return_var);
@@ -23,9 +27,8 @@ class Image
      * @return Imagick
      * @throws \ImagickException
      */
-    public static function create_thumbnail(string $filename, int $columns, int $rows) : Imagick {
-        $img = new Imagick($filename);
-        $img->setImageFormat('jpeg');
+    public function getSuperThumbnail(int $columns, int $rows) {
+        $img = clone $this->imagick;
         $img->scaleImage($columns, $rows , \Imagick::FILTER_GAUSSIAN , 1.5);
         $img->setImageCompression(\Imagick::COMPRESSION_JPEG);
         $img->setImageType(\Imagick::IMGTYPE_GRAYSCALE);
@@ -36,7 +39,6 @@ class Image
 
         return $img;
     }
-
 
     /**
      * Creates an optimized version of a file for web.
@@ -130,7 +132,7 @@ class Image
      * @return Imagick
      * @throws \ImagickException
      */
-    public static function cover(Imagick $img, int $width, int $height) {
+    public static function cover(int $width, int $height) {
         if ( $width == 0 || $height == 0 ) {
             $img->scaleImage($width, $height);
         } else {
@@ -172,7 +174,7 @@ class Image
      * @throws \ImagickException
      * @throws exception\InvalidSizeException
      */
-    public static function contain(Imagick $img, int $width, int $height, $background_color = 'transparent') {
+    public static function contain(int $width, int $height, $background_color = 'transparent') {
         if ( $width == 0 || $height == 0 ) {
             throw new exception\InvalidSizeException($width, $height);
         }
