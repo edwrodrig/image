@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace edwrodrig\image;
 
 use Imagick;
@@ -9,6 +11,63 @@ class Image
      * @var Imagick
      */
     private $imagick;
+
+    /**
+     * Image constructor.
+     * Construct a Image optimizer based on imagick
+     * @param Imagick $imagick
+     */
+    public function __construct(Imagick $imagick) {
+        $this->imagick = $imagick;
+    }
+
+    /**
+     * @param string $filename
+     * @param int $svg_width
+     * @return Image
+     * @throws \ImagickException
+     * @throws exception\ConvertingSvgException
+     * @throws exception\WrongFormatException
+     */
+    public static function createFromFile(string $filename, int $svg_width = 1000) {
+        $type = mime_content_type($filename);
+
+        if ($type === 'image/png' || $type === 'image/jpeg') {
+            $img = new Imagick;
+            $img->setBackgroundColor(new \ImagickPixel("transparent"));
+            $img->readImage($filename);
+            return new Image($img);
+        } else if ($type === 'image/svg+xml' ) {
+            $img = self::loadSvg($filename, $svg_width);
+            return new Image($img);
+        } else {
+            throw new exception\WrongFormatException($filename);
+        }
+    }
+
+    /**
+     * Returns a trimmed version of the image trimmed to transparent pixels
+     * @param string $filename
+     * @param int $svg_width
+     * @return Imagick
+     * @throws \ImagickException
+     * @throws exception\ConvertingSvgException
+     */
+    public static function loadSvg(string $filename, int $svg_width = 1000) : Imagick {
+        $png_filename = self::svgToPng($filename, $svg_width);
+        $img = new Imagick;
+        $img->setBackgroundColor("transparent");
+        $img->readImage($png_filename);
+        unlink($png_filename);
+
+        $img->setImageBackgroundColor('transparent');
+        //to trim transparent area of the image add a transparent border and then trim it
+        $img->borderImage('transparent', $img->getImageWidth() + 2, $img->getImageHeight() + 2);
+        $img->trimImage(0);
+
+        return $img;
+    }
+
 
     public static function check_svg_converter() : bool {
         exec('rsvg-convert --help',$output, $return_var);
@@ -27,84 +86,43 @@ class Image
      * @return Imagick
      * @throws \ImagickException
      */
-    public function getSuperThumbnail(int $columns, int $rows) {
-        $img = clone $this->imagick;
-        $img->scaleImage($columns, $rows , \Imagick::FILTER_GAUSSIAN , 1.5);
-        $img->setImageCompression(\Imagick::COMPRESSION_JPEG);
-        $img->setImageType(\Imagick::IMGTYPE_GRAYSCALE);
-        $img->gaussianBlurImage(0, 1);
-        $img->setSamplingFactors(['2x2', '1x1', '1x1']);
-        $img->setImageCompressionQuality(40);
-        $img->stripImage();
+    public function makeSuperThumbnail(int $columns, int $rows) : Image {
+        $this->imagick->scaleImage($columns, $rows , Imagick::FILTER_GAUSSIAN , 1.5);
+        $this->imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
+        $this->imagick->setImageType(Imagick::IMGTYPE_GRAYSCALE);
+        $this->imagick->gaussianBlurImage(0, 1);
+        $this->setOptimizedChromaSubSampling();
+        $this->imagick->setImageCompressionQuality(40);
+        $this->imagick->stripImage();
 
-        return $img;
+        return $this;
     }
 
     /**
-     * Creates an optimized version of a file for web.
-     * @param string $filename
-     * @param int $svg_width Set the width of the image in the svg. This need to be high or it will be pixelated.
-     * @return Imagick
-     * @throws \ImagickException
+     * Set the chroma subsampling to 4:2:0.
+     * @return $this
+     * @see https://en.wikipedia.org/wiki/Chroma_subsampling
      */
-    public static function optimize(string $filename, int $svg_width = 1000) : Imagick
+    public function setOptimizedChromaSubSampling() : Image
     {
-        $type = mime_content_type($filename);
-
-        if ($type === 'image/png') {
-            return self::optimize_png($filename);
-        } else if ($type === 'image/jpeg') {
-            return self::optimize_jpg($filename);
-        } else if ($type === 'image/svg+xml' ) {
-            return self::optimize_svg($filename, $svg_width);
-        } else {
-            throw new exception\WrongFormatException($filename);
-        }
+        /* The ImageMagick sampling factors for 4:2:0 */
+        $sampling_factors = ['2x2', '1x1', '1x1'];
+        $this->imagick->setSamplingFactors($sampling_factors);
+        return $this;
     }
 
-    public static function optimize_png(string $filename) {
-        $img = new Imagick();
-        $img->setBackgroundColor(new \ImagickPixel("transparent"));
-        $img->readImage($filename);
-        $img->stripImage();
+    public function optimizeLossless() : Image {
+        $this->imagick->stripImage();
 
-        return $img;
+        return $this;
     }
 
-    public static function optimize_jpg(string $filename) {
-        $img = new Imagick();
-        $img->setBackgroundColor(new \ImagickPixel("transparent"));
-        $img->readImage($filename);
-        $img->setSamplingFactors(['2x2', '1x1', '1x1']);
-        $img->setImageCompressionQuality(75);
-        $img->stripImage();
-        return $img;
-    }
-
-    /**
-     * Returns a trimmed version of the image trimmed to transparent pixels
-     * @param string $filename
-     * @param int $svg_width
-     * @return Imagick
-     * @throws \ImagickException
-     */
-    public static function optimize_svg(string $filename, int $svg_width = 1000) {
-        $tempnam_in = tempnam(sys_get_temp_dir(), "IN");
-        $tempnam_out = tempnam(sys_get_temp_dir(), "OUT");
-        file_put_contents($tempnam_in, file_get_contents($filename));
-
-        //need to create a png output of the file
-        passthru(sprintf("rsvg-convert %s -f png --keep-aspect-ratio -w %s -o %s", $tempnam_in, $svg_width, $tempnam_out));
-
-        $img = new Imagick();
-        $img->setBackgroundColor("transparent");
-        $img->readImage($tempnam_out);
-
-        $img->setImageBackgroundColor('transparent');
-        //to trim transparent area of the image add a transparent border and then trim it
-        $img->borderImage('transparent', $img->getImageWidth() + 2, $img->getImageHeight() + 2);
-        $img->trimImage(0);
-        return $img;
+    public function optimizePhoto() : Image {
+        $this->imagick->setImageCompression(\Imagick::COMPRESSION_JPEG);
+        $this->setOptimizedChromaSubSampling();
+        $this->imagick->setImageCompressionQuality(75);
+        $this->imagick->stripImage();
+        return $this;
     }
 
     /**
@@ -126,82 +144,94 @@ class Image
      *
      * The dimension that exceeds the rectangle area will be centered.
      * If the width or height are 0 makes to scale the image according the defined dimension
-     * @param Imagick $img
-     * @param int $width
-     * @param int $height
-     * @return Imagick
+     * @param Size $cover_area
+     * @return Image
      * @throws \ImagickException
      */
-    public static function cover(int $width, int $height) {
-        if ( $width == 0 || $height == 0 ) {
-            $img->scaleImage($width, $height);
+    public function cover(Size $cover_area) : Image {
+        if ( $cover_area->isAreaEmpty() ) {
+            $this->imagick->scaleImage($cover_area->getWidth(), $cover_area->getHeight());
         } else {
-            $w = $img->getImageWidth();
-            $h = $img->getImageHeight();
 
-            $resize_h_w = $w * $height / $h;
-            $resize_h_h = $height;
+            $original_size = Size::createFromImagick($this->imagick);
+            $scaled_area = $original_size->getScaledByCoverArea($cover_area);
 
-            $resize_w_w = $width;
-            $resize_w_h = $h * $width / $w;
+            $this->imagick->scaleImage($scaled_area->getWidth(), $scaled_area->getHeight(), Imagick::FILTER_LANCZOS, 0);
 
-
-
-            if ( $resize_h_w > $width ) {
-                $resize_w = $resize_h_w;
-                $resize_h = $resize_h_h;
-            } else {
-                $resize_w = $resize_w_w;
-                $resize_h = $resize_w_h;
-            }
-
-            $img->scaleImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0);
-
-            $img->cropImage($width, $height, ($resize_w - $width) / 2, ($resize_h - $height) / 2);
+            $this->imagick->cropImage(
+                $cover_area->getWidth(),
+                $cover_area->getHeight(),
+                $cover_area->getCenteredLeft($scaled_area),
+                $cover_area->getCenteredTop($scaled_area)
+            );
         }
-        return $img;
+        return $this;
     }
 
     /**
      * Makes the image to be contained in a rectangle.
      *
      * The dimension that does not exceed the rectangle area will be centered.
-     * @param Imagick $img
-     * @param int $width
-     * @param int $height
+     * @param Size $contain_area
      * @param string $background_color
-     * @return Imagick
+     * @return Image
      * @throws \ImagickException
      * @throws exception\InvalidSizeException
      */
-    public static function contain(int $width, int $height, $background_color = 'transparent') {
-        if ( $width == 0 || $height == 0 ) {
-            throw new exception\InvalidSizeException($width, $height);
-        }
-        $w = $img->getImageWidth();
-        $h = $img->getImageHeight();
-
-        $resize_h_w = $w * $height / $h;
-        $resize_h_h = $height;
-
-        $resize_w_w = $width;
-        $resize_w_h = $h * $width / $w;
-
-        if ( $resize_h_w < $width ) {
-            $resize_w = $resize_h_w;
-            $resize_h = $resize_h_h;
-        } else {
-            $resize_w = $resize_w_w;
-            $resize_h = $resize_w_h;
+    public function contain(Size $contain_area, $background_color = 'transparent') : Image {
+        if ( $contain_area->isAreaEmpty() ) {
+            throw new exception\InvalidSizeException($contain_area);
         }
 
-        $img->scaleImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0);
+        $original_size = Size::createFromImagick($this->imagick);
+        $scaled_area = $original_size->getScaledByContainArea($contain_area);
 
-        $img->setImageBackgroundColor($background_color);
-        $img->extentImage($width, $height, ($resize_w - $width) / 2, ($resize_h - $height) / 2);
-        return $img;
+        $this->imagick->scaleImage($scaled_area->getWidth(), $scaled_area->getHeight(), Imagick::FILTER_LANCZOS, 0);
+
+        $this->imagick->setImageBackgroundColor($background_color);
+        $this->imagick->extentImage(
+            $contain_area->getWidth(),
+            $contain_area->getHeight(),
+            $contain_area->getCenteredLeft($scaled_area),
+            $contain_area->getCenteredTop($scaled_area)
+        );
+        return $this;
 
 
+    }
+
+    /**
+     * @param string $svg_filename
+     * @param int $svg_width
+     * @return bool|string
+     * @throws exception\ConvertingSvgException
+     */
+    public static function svgToPng(string $svg_filename, int $svg_width)
+    {
+        $tempnam_in = tempnam(sys_get_temp_dir(), "IN");
+        $tempnam_out = tempnam(sys_get_temp_dir(), "OUT");
+        file_put_contents($tempnam_in, file_get_contents($svg_filename));
+
+        //need to create a png output of the file
+        exec(
+            sprintf("rsvg-convert %s -f png --keep-aspect-ratio -w %s -o %s", $tempnam_in, $svg_width, $tempnam_out),
+            $output,
+            $return_var
+        );
+
+        unlink($tempnam_in);
+
+        if ($return_var !== 0) {
+            unlink($tempnam_out);
+            throw new exception\ConvertingSvgException(implode("\n", $output));
+        }
+
+        if ( mime_content_type($tempnam_out) !== 'image/png' ) {
+            unlink($tempnam_out);
+            throw new exception\ConvertingSvgException('Output is not a svg file');
+        }
+
+        return $tempnam_out;
     }
 
     public static function compare(string $filename1, string $filename2) {

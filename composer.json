@@ -1,5 +1,6 @@
 {
     "name": "edwrodrig/image",
+    "description": "Library optimize images for web sites and create thumbnails",
     "authors": [
         {
             "name": "Edwin Rodríguez",
@@ -21,11 +22,14 @@
     },
     "archive" : {
         "exclude" : [
-            ".idea",
+            "/files",
+            "/examples",
+            "/tests",
+            "/.idea",
             ".gitignore",
+            ".git",
             "phpunit.xml.dist",
-            "tests",
-            "examples"
+            "README.md"
         ]
     }
 }

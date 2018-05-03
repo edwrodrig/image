@@ -9,6 +9,7 @@
 namespace edwrodrig\image\exception;
 
 
+use edwrodrig\image\Size;
 use Exception;
 
 class InvalidSizeException extends Exception
@@ -16,11 +17,10 @@ class InvalidSizeException extends Exception
 
     /**
      * InvalidSizeException constructor.
-     * @param int $width
-     * @param int $height
+     * @param Size $size
      */
-    public function __construct($width, $height)
+    public function __construct(Size $size)
     {
-        parent::__construct("[$width][$height]");
+        parent::__construct(sprintf("[%s][%s]", $size->getWidth(), $size->getHeight()));
     }
 }
