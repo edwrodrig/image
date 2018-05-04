@@ -7,6 +7,7 @@
             "email": "edwrodrig@gmail.com"
         }
     ],
+    "license" : "MIT",
     "minimum-stability" : "stable",
     "require": {
         "php" : "^7.2",
@@ -22,7 +23,6 @@
     },
     "archive" : {
         "exclude" : [
-            "/files",
             "/examples",
             "/tests",
             "/.idea",

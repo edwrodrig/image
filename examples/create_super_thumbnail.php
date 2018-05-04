@@ -11,6 +11,6 @@ $image = Image::createFromFile(__DIR__ . '/../tests/files/original/ssj.png');
 $image->makeSuperThumbnail(100, 100);
 
 //Write it somewhere
-$image->writeImage('/tmp/out.jpg');
+$image->writeImage(__DIR__ . '/out.jpg');
 
 

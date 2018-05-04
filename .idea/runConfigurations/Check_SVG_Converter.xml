@@ -1,5 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Check SVG Converter" type="PhpLocalRunConfigurationType" factoryName="PHP Console" path="$PROJECT_DIR$/examples/create_super_thumbnail.php">
-    <method />
-  </configuration>
-</component>
