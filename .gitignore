@@ -1,7 +1,7 @@
 *.swp
-composer.lock
-composer.phar
-vendor
-.idea
-/examples/*.png
-/examples/*.jpg
+/composer.phar
+/composer.lock
+/vendor
+/.idea/*
+!/.idea/php.xml
+!/.idea/runConfigurations
