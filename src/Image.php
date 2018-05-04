@@ -22,6 +22,18 @@ class Image
     }
 
     /**
+     * Trim transparent pixels
+     * @return $this
+     */
+    public function trimTransparentPixels() : Image {
+        $this->imagick->setImageBackgroundColor('transparent');
+        //to trim transparent area of the image add a transparent border and then trim it because trimImage function uses the top left pixels and it could lead to undesired results
+        $this->imagick->borderImage('transparent', $this->imagick->getImageWidth() + 2, $this->imagick->getImageHeight() + 2);
+        $this->imagick->trimImage(0);
+        return $this;
+    }
+
+    /**
      * Creates a image from a filename.
      *
      * It handles png, jpg and svg format nicely.
@@ -31,6 +43,7 @@ class Image
      * @return Image
      * @throws \ImagickException
      * @throws exception\ConvertingSvgException
+     * @throws exception\InvalidImageException
      * @throws exception\WrongFormatException
      */
     public static function createFromFile(string $filename, int $svg_width = 1000) {
@@ -42,37 +55,17 @@ class Image
             $img->readImage($filename);
             return new Image($img);
         } else if ($type === 'image/svg+xml' ) {
-            $img = self::loadSvg($filename, $svg_width);
-            return new Image($img);
+            $converter = new SvgConverter;
+            $converter->setWidth($svg_width);
+
+            $imagick = new Imagick($converter->convert($filename));
+            unlink($converter->getOutputFilename());
+            $image = new Image($imagick);
+            $image->trimTransparentPixels();
+            return $image;
         } else {
             throw new exception\WrongFormatException($filename);
         }
-    }
-
-    /**
-     * Returns a trimmed version of the image trimmed to transparent pixels.
-     *
-     * This function uses svgToPng internally.
-     * @see Image::svgToPng()
-     * @param string $filename
-     * @param int $svg_width
-     * @return Imagick
-     * @throws \ImagickException
-     * @throws exception\ConvertingSvgException
-     */
-    public static function loadSvg(string $filename, int $svg_width = 1000) : Imagick {
-        $png_filename = self::svgToPng($filename, $svg_width);
-        $img = new Imagick;
-        $img->setBackgroundColor("transparent");
-        $img->readImage($png_filename);
-        unlink($png_filename);
-
-        $img->setImageBackgroundColor('transparent');
-        //to trim transparent area of the image add a transparent border and then trim it
-        $img->borderImage('transparent', $img->getImageWidth() + 2, $img->getImageHeight() + 2);
-        $img->trimImage(0);
-
-        return $img;
     }
 
     /**
@@ -88,11 +81,6 @@ class Image
         return $this;
     }
 
-
-    public static function check_svg_converter() : bool {
-        exec('rsvg-convert --help',$output, $return_var);
-        return $return_var == 0;
-    }
 
     /**
      * Create a super low sized thumbnail.
@@ -243,47 +231,6 @@ class Image
     public function writeImage(string $filename) : string {
         $this->imagick->writeImage($filename);
         return $filename;
-    }
-
-    /**
-     * Convert a svg to a image.
-     *
-     * The svg_width is the tentative width of the target png image. It's recommended to put a big value needed to scale down.
-     * Because the vectorial nature of SVG, there is are not clear dimension values so the converters try to guess.
-     * Sometimes the guess is a bit small so the picture is in very low resolution.
-     *
-     * This function use rsvg-convert internally. In ubuntu you can install it with `sudo apt install librsvg2-bin`
-     * @param string $svg_filename
-     * @param int $svg_width
-     * @return bool|string
-     * @throws exception\ConvertingSvgException
-     */
-    public static function svgToPng(string $svg_filename, int $svg_width)
-    {
-        $tempnam_in = tempnam(sys_get_temp_dir(), "IN");
-        $tempnam_out = tempnam(sys_get_temp_dir(), "OUT");
-        file_put_contents($tempnam_in, file_get_contents($svg_filename));
-
-        //need to create a png output of the file
-        exec(
-            sprintf("rsvg-convert %s -f png --keep-aspect-ratio -w %s -o %s", $tempnam_in, $svg_width, $tempnam_out),
-            $output,
-            $return_var
-        );
-
-        unlink($tempnam_in);
-
-        if ($return_var !== 0) {
-            unlink($tempnam_out);
-            throw new exception\ConvertingSvgException(implode("\n", $output));
-        }
-
-        if ( mime_content_type($tempnam_out) !== 'image/png' ) {
-            unlink($tempnam_out);
-            throw new exception\ConvertingSvgException('Output is not a svg file');
-        }
-
-        return $tempnam_out;
     }
 
     /**

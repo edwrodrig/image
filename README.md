@@ -20,6 +20,9 @@ so it should pop up nicely if you're using IDEs like [PhpStorm](https://www.jetb
 
 ### Examples
 
+* [Create a super thumbnail](https://github.com/edwrodrig/image/blob/master/examples/create_super_thumbnail.php)
+  ![Source](https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png =250x)
+  ![Target](https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_thumb.jpg)
 
 ## Composer
 ```

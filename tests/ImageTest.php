@@ -17,7 +17,7 @@ class ImageTest extends TestCase
      * because file data are not equals between different generations.
      * Maybe some time related info is saved in png file metadata
      * @param string $expected_image
-     * @param Imagick $image
+     * @param string $actual_image
      * @throws ImagickException
      */
     public function assertImageEquals(string $expected_image, string $actual_image) {
