@@ -22,6 +22,10 @@ class Image
     }
 
     /**
+     * Creates a image from a filename.
+     *
+     * It handles png, jpg and svg format nicely.
+     * This is useful when you can't known the type of the image before.
      * @param string $filename
      * @param int $svg_width
      * @return Image
@@ -46,7 +50,10 @@ class Image
     }
 
     /**
-     * Returns a trimmed version of the image trimmed to transparent pixels
+     * Returns a trimmed version of the image trimmed to transparent pixels.
+     *
+     * This function uses svgToPng internally.
+     * @see Image::svgToPng()
      * @param string $filename
      * @param int $svg_width
      * @return Imagick
@@ -68,6 +75,19 @@ class Image
         return $img;
     }
 
+    /**
+     * Scales the image
+     * @see Imagick::scaleImage
+     * @param int $width
+     * @param int $height
+     * @return Image
+     * @throws \ImagickException
+     */
+    public function scaleImage(int $width, int $height) : Image {
+        $this->imagick->scaleImage($width, $height, true, true);
+        return $this;
+    }
+
 
     public static function check_svg_converter() : bool {
         exec('rsvg-convert --help',$output, $return_var);
@@ -80,18 +100,17 @@ class Image
      * This thumbnail is in grayscale, very blurry and in very bad quality.
      * The purpose of this thumbnail is to create a hint of the complete image that can be stored in a column in a database.
      * Generally has <1Kb size.
-     * @param string $filename
      * @param int $columns
      * @param int $rows
-     * @return Imagick
+     * @return Image
      * @throws \ImagickException
      */
     public function makeSuperThumbnail(int $columns, int $rows) : Image {
-        $this->imagick->scaleImage($columns, $rows , Imagick::FILTER_GAUSSIAN , 1.5);
+        $this->imagick->scaleImage($columns, $rows , true , true);
         $this->imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
         $this->imagick->setImageType(Imagick::IMGTYPE_GRAYSCALE);
-        $this->imagick->gaussianBlurImage(0, 1);
         $this->setOptimizedChromaSubSampling();
+        $this->imagick->gaussianBlurImage(0, 1);
         $this->imagick->setImageCompressionQuality(40);
         $this->imagick->stripImage();
 
@@ -100,6 +119,7 @@ class Image
 
     /**
      * Set the chroma subsampling to 4:2:0.
+     *
      * @return $this
      * @see https://en.wikipedia.org/wiki/Chroma_subsampling
      */
@@ -111,12 +131,24 @@ class Image
         return $this;
     }
 
+    /**
+     * Optimize the image for lossless output.
+     *
+     * This function just strip the image.
+     * @return Image
+     */
     public function optimizeLossless() : Image {
         $this->imagick->stripImage();
 
         return $this;
     }
 
+    /**
+     * Optimize the image for photo output.
+     *
+     * This is used when you need photos and images without transparency.
+     * @return Image
+     */
     public function optimizePhoto() : Image {
         $this->imagick->setImageCompression(\Imagick::COMPRESSION_JPEG);
         $this->setOptimizedChromaSubSampling();
@@ -126,18 +158,23 @@ class Image
     }
 
     /**
-     * @param Imagick $img
-     * @param $color
-     * @return Imagick
+     * Applies a color overlay to the image.
+     *
+     * It is used to colorize white silhouettes. For example, a white square is colorized to a red square.
+     * Internally creates a full color image and the use compositeImage with COMPOSITE_COPYOPACITY
+     * @see Imagick::compositeImage()
+     * @see Imagick::COMPOSITE_COPYOPACITY
+     * @param string $color
+     * @return Image
      * @throws \ImagickException
      */
-    public static function color_overlay(Imagick $img, $color) {
-        $overlay = new \Imagick();
-        $overlay->newImage($img->getImageWidth(), $img->getImageHeight(), $color);
-        $overlay->compositeImage($img, Imagick::COMPOSITE_COPYOPACITY, 0, 0);
-        return $overlay;
+    public function colorOverlay(string $color) {
+        $overlay = new Imagick;
+        $overlay->newImage($this->imagick->getImageWidth(), $this->imagick->getImageHeight(), $color);
+        $overlay->compositeImage($this->imagick, Imagick::COMPOSITE_COPYOPACITY, 0, 0);
+        $this->imagick = $overlay;
+        return $this;
     }
-
 
     /**
      * Makes the image to cover a rectangle.
@@ -156,13 +193,13 @@ class Image
             $original_size = Size::createFromImagick($this->imagick);
             $scaled_area = $original_size->getScaledByCoverArea($cover_area);
 
-            $this->imagick->scaleImage($scaled_area->getWidth(), $scaled_area->getHeight(), Imagick::FILTER_LANCZOS, 0);
+            $this->imagick->scaleImage($scaled_area->getWidth(), $scaled_area->getHeight(), true, false);
 
             $this->imagick->cropImage(
                 $cover_area->getWidth(),
                 $cover_area->getHeight(),
-                $cover_area->getCenteredLeft($scaled_area),
-                $cover_area->getCenteredTop($scaled_area)
+                $scaled_area->getCenteredLeft($cover_area),
+                $scaled_area->getCenteredTop($cover_area)
             );
         }
         return $this;
@@ -186,21 +223,36 @@ class Image
         $original_size = Size::createFromImagick($this->imagick);
         $scaled_area = $original_size->getScaledByContainArea($contain_area);
 
-        $this->imagick->scaleImage($scaled_area->getWidth(), $scaled_area->getHeight(), Imagick::FILTER_LANCZOS, 0);
+        $this->imagick->scaleImage($scaled_area->getWidth(), $scaled_area->getHeight(), true, false);
 
         $this->imagick->setImageBackgroundColor($background_color);
         $this->imagick->extentImage(
             $contain_area->getWidth(),
             $contain_area->getHeight(),
-            $contain_area->getCenteredLeft($scaled_area),
-            $contain_area->getCenteredTop($scaled_area)
+            $scaled_area->getCenteredLeft($contain_area),
+            $scaled_area->getCenteredTop($contain_area)
         );
         return $this;
-
-
     }
 
     /**
+     * Write the image to a file.
+     * @param string $filename
+     * @return string
+     */
+    public function writeImage(string $filename) : string {
+        $this->imagick->writeImage($filename);
+        return $filename;
+    }
+
+    /**
+     * Convert a svg to a image.
+     *
+     * The svg_width is the tentative width of the target png image. It's recommended to put a big value needed to scale down.
+     * Because the vectorial nature of SVG, there is are not clear dimension values so the converters try to guess.
+     * Sometimes the guess is a bit small so the picture is in very low resolution.
+     *
+     * This function use rsvg-convert internally. In ubuntu you can install it with `sudo apt install librsvg2-bin`
      * @param string $svg_filename
      * @param int $svg_width
      * @return bool|string
@@ -234,19 +286,14 @@ class Image
         return $tempnam_out;
     }
 
-    public static function compare(string $filename1, string $filename2) {
-
-        $img1 = new Imagick($filename1);
-        $img2 = new Imagick($filename2);
-        $command = sprintf('compare -dissimilarity-threshold 1 -subimage-search -metric RMSE %s %s /tmp/out 2>&1', $file1, $file2);
-        $result = exec($command);
-        $items = explode(' ', $result);
-        if ( strpos($result, 'images too dissimilar') !== FALSE ) return 99999.9;
-        if ( count($items) >= 2 ) {
-            $number = filter_var(trim($items[0]), FILTER_VALIDATE_FLOAT);
-            if ( $number !== FALSE ) return $number;
-        }
-        throw new \Exception('ERROR_COMPARING_FILES');
+    /**
+     * Get the imagick image object.
+     *
+     * Use at your own risk. Just use read only methods.
+     * @return Imagick
+     */
+    public function getImagickImage() : Imagick {
+        return $this->imagick;
     }
 
 }
