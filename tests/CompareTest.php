@@ -1,11 +1,21 @@
 <?php
 
+namespace tests\edwrodrig\image;
+
 use edwrodrig\image\Compare;
 use PHPUnit\Framework\TestCase;
 
 class CompareTest extends TestCase
 {
 
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\CompareCommandException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
     public function testCompareSameFile() {
         $this->assertEquals(
             0,
@@ -17,8 +27,10 @@ class CompareTest extends TestCase
     }
 
     /**
-     * @throws ImagickException
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\CompareCommandException
      * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
      * @throws \edwrodrig\image\exception\InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
@@ -52,6 +64,9 @@ class CompareTest extends TestCase
         }
     }
 
+    /**
+     * @throws \edwrodrig\image\exception\CompareCommandException
+     */
     public function testCompareDissimilar()
     {
         $compare = new Compare;
@@ -65,10 +80,9 @@ class CompareTest extends TestCase
     }
 
 
-        /**
+    /**
      * @expectedException \edwrodrig\image\exception\CompareCommandException
      * @expectedExceptionMessage sh: 1: not_existant: not found
-     * @throws Exception
      */
     public function testExecutableNotExistant() {
         $compare = new Compare;

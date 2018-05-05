@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 04-04-18
- * Time: 13:17
- */
+declare(strict_types=1);
 
 namespace edwrodrig\image\exception;
 
@@ -12,12 +7,18 @@ namespace edwrodrig\image\exception;
 use edwrodrig\image\Size;
 use Exception;
 
+/**
+ * Class InvalidSizeException
+ * @package edwrodrig\image\exception
+ * @api
+ */
 class InvalidSizeException extends Exception
 {
 
     /**
      * InvalidSizeException constructor.
      * @param Size $size
+     * @internal
      */
     public function __construct(Size $size)
     {

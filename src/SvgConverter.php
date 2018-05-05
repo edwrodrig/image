@@ -1,26 +1,40 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 04-05-18
- * Time: 15:19
- */
+declare(strict_types=1);
 
 namespace edwrodrig\image;
 
-use edwrodrig\image\util\Util;
+use /** @noinspection PhpInternalEntityUsedInspection */
+    edwrodrig\image\util\Util;
 
+/**
+ * Class SvgConverter
+ * When you are ready you can {@see SvgConverter::convert() convert it providing a source svg file}.
+ * Finally you can retrieve the {@see SvgConverter::getOutputFilename() png image filename}
+ * @see SvgConverter::setWidth() set the target width of the generated image, this is very important in the output quality.
+ * @see SvgConverter::doesExecutableExists() to check if the converter is installed in your system
+ * @package edwrodrig\image
+ * @api
+ */
 class SvgConverter
 {
+    /**
+     * @var string
+     */
     private $executable = 'rsvg-convert';
 
+    /**
+     * @var string
+     */
     private $png_output;
 
+    /**
+     * @var int
+     */
     private $width = 1000;
 
     /**
      * SvgConverter constructor.
-     * @param string $filename
+     * @api
      */
     public function __construct() {
         $this->png_output = tempnam(sys_get_temp_dir(), "OUT");
@@ -30,6 +44,8 @@ class SvgConverter
      * Set rsvg_convert executable
      *
      * In ubuntu you can install it with `sudo apt install librsvg2-bin`
+     *
+     * @api
      * @param string $executable
      * @return $this
      */
@@ -42,6 +58,8 @@ class SvgConverter
      * The svg_width is the tentative width of the target png image. It's recommended to put a big value needed to scale down.
      * Because the vectorial nature of SVG, there is are not clear dimension values so the converters try to guess.
      * Sometimes the guess is a bit small so the picture is in very low resolution.
+     *
+     * @api
      * @param $width
      * @return SvgConverter
      */
@@ -53,10 +71,13 @@ class SvgConverter
 
     /**
      * Check if rsvg_convert command exists
+     *
+     * @api
      * @return bool
      */
     public function doesExecutableExists() : bool {
         $version_command = sprintf('%s --version', $this->executable);
+        /** @noinspection PhpInternalEntityUsedInspection */
         if ( $result = Util::runCommand($version_command) ) {
             if ( $result->getExitCode() == 0 )
                 return true;
@@ -67,11 +88,11 @@ class SvgConverter
     /**
      * Get the rsvg-convert command used internally.
      *
-     * Just provided as public for testing and debugging proposes
+     * @internal Just provided as public for testing and debugging proposes
      * @param string $input_file
      * @return string
      */
-    public function getConvertCommand(string $input_file) {
+    public function getConvertCommand(string $input_file) : string {
         return sprintf(
             "%s %s -f png --keep-aspect-ratio -w %s -o %s",
             $this->executable,
@@ -84,7 +105,8 @@ class SvgConverter
     /**
      * Convert a svg to a image.
      *
-     * This function use rsvg-convert internally. In ubuntu you can install it with `sudo apt install librsvg2-bin`
+     * @api
+     * @uses Svg::getConvertCommand()
      * @param string $filename
      * @return bool|string
      * @throws exception\ConvertingSvgException
@@ -96,15 +118,19 @@ class SvgConverter
         file_put_contents($tempnam_in, file_get_contents($filename));
 
         //need to create a png output of the file
+        /** @noinspection PhpInternalEntityUsedInspection */
         $result = Util::runCommand($this->getConvertCommand($tempnam_in));
 
         unlink($tempnam_in);
 
         if ($result->getExitCode() !== 0) {
+
+            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\ConvertingSvgException($result->getStdErrOrOut());
         }
 
         if ( mime_content_type($this->png_output) !== 'image/png' ) {
+            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\InvalidImageException($this->png_output);
         }
 
@@ -115,6 +141,7 @@ class SvgConverter
      * Get the converted PNG filename.
      *
      * It's nice to unlink it when is no longer in use.
+     * @api
      * @return string
      */
     public function getOutputFilename() : string {

@@ -14,6 +14,8 @@ Library to create optimized images and thumbnails for web, and compare images.
  * Optimize for web to meet the [PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights) suggestions about [optimizing images](https://developers.google.com/speed/docs/insights/OptimizeImages).
  * Create small preview thumbnails of about <1Kb suitable for database columns.
  * Compare images to detect duplicates.
+ 
+ My infrastructure is targeted to __Ubuntu 16.04__ machines with last __php7.2__ installed from [ppa:ondrej/php](https://launchpad.net/~ondrej/+archive/ubuntu/php)
 
 ## Dependencies
 It needs __rsvg-convert__ to convert svg images nicely. Also need __compare__ to make image comparisons.
@@ -48,5 +50,6 @@ The test are built using PhpUnit. It generates images and compare the signature 
 ## License
 MIT license. Use it as you want at your own risk.
 
-
+## About language
+I'm not a native english writer, so there may be a lot of grammar and orthographical errors on text, I'm just trying my best. But feel free to correct my language, any contribution is welcome and for me they are a learning instance.
 

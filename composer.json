@@ -3,9 +3,17 @@
     "description": "Library optimize images for web sites and create thumbnails",
     "authors": [
         {
-            "name": "Edwin Rodríguez",
-            "email": "edwrodrig@gmail.com"
+            "name": "Edwin Rodríguez León",
+            "email": "edwrodrig@gmail.com",
+            "homepage": "http://www.edwin.cl",
+            "role": "Developer"
         }
+    ],
+    "keywords" : [
+        "optimize-images",
+        "compare-images",
+        "thumbnails",
+        "svg"
     ],
     "license" : "MIT",
     "minimum-stability" : "stable",
@@ -14,11 +22,16 @@
         "ext-imagick": "*"
     },
     "require-dev" : {
-        "phpunit/phpunit" : "^6.4"
+        "phpunit/phpunit" : "^7.0"
     },
     "autoload" : {
         "psr-4" : {
             "edwrodrig\\image\\" : "src/"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "tests\\edwrodrig\\image\\" : "src/"
         }
     },
     "archive" : {

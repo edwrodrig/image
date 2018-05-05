@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Create Thumbnail" type="PhpLocalRunConfigurationType" factoryName="PHP Console" path="$PROJECT_DIR$/examples/create_super_thumbnail.php">
+  <configuration default="false" name="Create Thumbnail" type="PhpLocalRunConfigurationType" factoryName="PHP Console" folderName="Examples" path="$PROJECT_DIR$/examples/create_super_thumbnail.php">
     <method />
   </configuration>
 </component>

@@ -7,6 +7,7 @@ namespace edwrodrig\image\util;
  * Class CommandReturn
  * A class to contains the command results. It stores the exit code, the standard output and standard error
  * @package edwrodrig\image\util
+ * @api
  */
 class CommandReturn
 {
@@ -27,6 +28,7 @@ class CommandReturn
      * @param int $exit_code the exit code
      * @param string $std_out the standard output
      * @param string $std_err the standard error
+     * @internal
      */
     public function __construct(int $exit_code, string $std_out, string $std_err) {
         $this->exit_code = $exit_code;
@@ -35,6 +37,7 @@ class CommandReturn
     }
     /**
      * Thee exit code
+     * @api
      * @return int
      */
     public function getExitCode(): int
@@ -43,6 +46,7 @@ class CommandReturn
     }
     /**
      * The standard output
+     * @api
      * @return string
      */
     public function getStdOut(): string
@@ -51,6 +55,7 @@ class CommandReturn
     }
     /**
      * The standard error
+     * @api
      * @return string
      */
     public function getStdErr(): string
@@ -59,6 +64,7 @@ class CommandReturn
     }
     /**
      * The standard error if not empty, else the standard output
+     * @api
      * @return string
      */
     public function getStdErrOrOut() : string {

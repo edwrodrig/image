@@ -6,8 +6,11 @@
  * Time: 22:14
  */
 
+namespace tests\edwrodrig\image;
+
 use edwrodrig\image\Image;
 use edwrodrig\image\Size;
+use Imagick;
 use PHPUnit\Framework\TestCase;
 
 class ImageTest extends TestCase
@@ -18,9 +21,10 @@ class ImageTest extends TestCase
      * Maybe some time related info is saved in png file metadata
      * @param string $expected_image
      * @param string $actual_image
-     * @throws ImagickException
+     * @throws \ImagickException
      */
-    public function assertImageEquals(string $expected_image, string $actual_image) {
+    public function assertImageEquals(string $expected_image, string $actual_image)
+    {
         $expected_image = new Imagick($expected_image);
         $actual_image = new Imagick($actual_image);
         $this->assertEquals(
@@ -29,7 +33,14 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testCreateSuperThumbnail() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testCreateSuperThumbnail()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/goku.jpg');
         $image->makeSuperThumbnail(100, 100);
         $image->writeImage('/tmp/out.jpg');
@@ -39,7 +50,14 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizePhoto() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizePhoto()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/goku.jpg');
         $image->scaleImage(500, 200);
         $image->optimizePhoto();
@@ -50,7 +68,14 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testSuperThumbnail2() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testSuperThumbnail2()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->makeSuperThumbnail(100, 100);
         $image->writeImage('/tmp/out.jpg');
@@ -64,11 +89,13 @@ class ImageTest extends TestCase
      * We need to compare ImageSignature
      * because file data are not equals between different generations.
      * Maybe some time related info is saved in png file metadata
-     * @throws ImagickException
+     * @throws \ImagickException
      * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
-    public function testOptimizeLossless() {
+    public function testOptimizeLossless()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->scaleImage(500, 200);
         $image->optimizeLossless();
@@ -80,7 +107,14 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testThumbnailSvg() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testThumbnailSvg()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/dbz.svg', 1000);
         $image->makeSuperThumbnail(100, 100);
         $image->writeImage('/tmp/out.jpg');
@@ -90,7 +124,14 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessFromSvg() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessFromSvg()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/dbz.svg', 1000);
         $image->scaleImage(500, 500);
         $image->optimizeLossLess();
@@ -102,7 +143,14 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessFromSvg2() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessFromSvg2()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/dbz.svg', 2000);
         $image->scaleImage(1500, 1500);
         $image->optimizeLossLess();
@@ -114,7 +162,14 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessFromSvg3() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessFromSvg3()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/browser.svg', 500);
         $image->scaleImage(500, 500);
         $image->optimizeLossLess();
@@ -126,7 +181,14 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessCover() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessCover()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->cover(new Size(200, 200));
         $image->optimizeLossless();
@@ -138,7 +200,14 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessCover2() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessCover2()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->cover(new Size(90, 132));
         $image->optimizeLossless();
@@ -150,7 +219,15 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessContain() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessContain()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->contain(new Size(200, 200));
         $image->optimizeLossless();
@@ -162,7 +239,15 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessContain2() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessContain2()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->contain(new Size(90, 132));
         $image->optimizeLossless();
@@ -174,7 +259,15 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessContainBackground() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessContainBackground()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/favicon.png');
         $image->contain(new Size(20, 20), 'red');
         $image->optimizeLossless();
@@ -186,7 +279,15 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessContainBackground2() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessContainBackground2()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/favicon.png');
         $image->contain(new Size(90, 132), 'red');
         $image->optimizeLossless();
@@ -198,7 +299,15 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessContainFromSvg() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessContainFromSvg()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/eroulette.svg', 1000);
         $image->contain(new Size(152, 152));
         $image->optimizeLossLess();
@@ -210,7 +319,15 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessContainFromSvg2() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessContainFromSvg2()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/eroulette.svg', 1000);
         $image->contain(new Size(30, 50));
         $image->optimizeLossLess();
@@ -222,7 +339,15 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testOptimizeLosslessContainFromSvg3() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessContainFromSvg3()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/eroulette.svg', 1000);
         $image->contain(new Size(50, 30), ' blue');
         $image->optimizeLossLess();
@@ -234,7 +359,15 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testColorOverlay() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testColorOverlay()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/amanda.svg', 1000);
         $image->colorOverlay('red');
         $image->contain(new Size(152, 152), ' transparent');
@@ -247,7 +380,15 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testColorOverlay2() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testColorOverlay2()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/amanda.svg', 1000);
         $image->colorOverlay('green');
         $image->contain(new Size(16, 16), ' transparent');
@@ -260,7 +401,15 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testColorOverlay3() {
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testColorOverlay3()
+    {
         $image = Image::createFromFile(__DIR__ . '/files/original/amanda.svg', 1000);
         $image->colorOverlay('blue');
         $image->contain(new Size(30, 50), ' yellow');
@@ -273,18 +422,4 @@ class ImageTest extends TestCase
         );
     }
 
-/*
-
-$img = Image::optimize(__DIR__ . '/sources/amanda.svg');
-$img = Image::color_overlay($img, 'red');
-$img = Image::contain($img, 16, 16, 'transparent');
-//$img = Image::contain($img, 900, 1328);
-$img->writeImage(__DIR__ . '/amanda.png');
-
-$img = Image::optimize(__DIR__ . '/sources/amanda.svg');
-$img = Image::color_overlay($img, 'red');
-$img = Image::contain($img, 152, 152, 'transparent');
-//$img = Image::contain($img, 900, 1328);
-$img->writeImage(__DIR__ . '/amanda.png');
-*/
 }

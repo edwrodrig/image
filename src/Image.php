@@ -5,6 +5,23 @@ namespace edwrodrig\image;
 
 use Imagick;
 
+/**
+ * Class Image.
+ *
+ * A class to convert optimized images and manipulate them.
+ * To use it you can create a instance with the {@see Image::__construct() constructor} passing a {@see Imagick} object,
+ * or {@see Image::createFromFile creating} one directly from a file.
+ *
+ * Then you can transform it with some of methods provided, checkout the following ones:
+ *  - {@see Image::makeSuperThumbnail() make a super thumbnail}.
+ *  - {@see Image::cover() cover an area with an image}.
+ *  - {@see Image::contain() contain an image inside an area}.
+ *  - {@see Image::optimizePhoto() make a optimized jpg}.
+ *
+ * Finally you can {@see Image::writeImage() write the image} to a file
+ * @package edwrodrig\image
+ * @api
+ */
 class Image
 {
     /**
@@ -15,6 +32,7 @@ class Image
     /**
      * Image constructor.
      * Construct a Image optimizer based on imagick
+     * @api
      * @param Imagick $imagick
      */
     public function __construct(Imagick $imagick) {
@@ -22,7 +40,10 @@ class Image
     }
 
     /**
-     * Trim transparent pixels
+     * Trim transparent pixels.
+     *
+     * I HATE THIS IMPLEMENTATION!!
+     * IF YOU KNOW A MORE ELEGANT TO DO THE SAME PLEASE CONTACT A DEVELOPER.
      * @return $this
      */
     public function trimTransparentPixels() : Image {
@@ -38,8 +59,11 @@ class Image
      *
      * It handles png, jpg and svg format nicely.
      * This is useful when you can't known the type of the image before.
+     *
+     * @api
      * @param string $filename
-     * @param int $svg_width
+     * @param int $svg_width For more information see this {@see SvgConverter::setWidth() these information}
+     * @uses SvgConverter To process SVG files
      * @return Image
      * @throws \ImagickException
      * @throws exception\ConvertingSvgException
@@ -64,13 +88,15 @@ class Image
             $image->trimTransparentPixels();
             return $image;
         } else {
+            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\WrongFormatException($filename);
         }
     }
 
     /**
-     * Scales the image
-     * @see Imagick::scaleImage
+     * Scales the image.
+     * @uses Imagick::scaleImage() To scale the image
+     * @api
      * @param int $width
      * @param int $height
      * @return Image
@@ -88,6 +114,9 @@ class Image
      * This thumbnail is in grayscale, very blurry and in very bad quality.
      * The purpose of this thumbnail is to create a hint of the complete image that can be stored in a column in a database.
      * Generally has <1Kb size.
+     *
+     * @api
+     * @see https://github.com/edwrodrig/image/blob/master/examples/create_super_thumbnail.php An example
      * @param int $columns
      * @param int $rows
      * @return Image
@@ -106,10 +135,10 @@ class Image
     }
 
     /**
-     * Set the chroma subsampling to 4:2:0.
+     * Set the {@see https://en.wikipedia.org/wiki/Chroma_subsampling chroma subsampling} to 4:2:0.
      *
+     * @api
      * @return $this
-     * @see https://en.wikipedia.org/wiki/Chroma_subsampling
      */
     public function setOptimizedChromaSubSampling() : Image
     {
@@ -123,6 +152,7 @@ class Image
      * Optimize the image for lossless output.
      *
      * This function just strip the image.
+     * @api
      * @return Image
      */
     public function optimizeLossless() : Image {
@@ -135,6 +165,7 @@ class Image
      * Optimize the image for photo output.
      *
      * This is used when you need photos and images without transparency.
+     * @api
      * @return Image
      */
     public function optimizePhoto() : Image {
@@ -149,9 +180,8 @@ class Image
      * Applies a color overlay to the image.
      *
      * It is used to colorize white silhouettes. For example, a white square is colorized to a red square.
-     * Internally creates a full color image and the use compositeImage with COMPOSITE_COPYOPACITY
-     * @see Imagick::compositeImage()
-     * @see Imagick::COMPOSITE_COPYOPACITY
+     * Internally creates a full color image and the use {@see Imagick::compositeImage()} with {@see Imagick::COMPOSITE_COPYOPACITY}
+     * @api
      * @param string $color
      * @return Image
      * @throws \ImagickException
@@ -169,6 +199,7 @@ class Image
      *
      * The dimension that exceeds the rectangle area will be centered.
      * If the width or height are 0 makes to scale the image according the defined dimension
+     * @api
      * @param Size $cover_area
      * @return Image
      * @throws \ImagickException
@@ -197,6 +228,7 @@ class Image
      * Makes the image to be contained in a rectangle.
      *
      * The dimension that does not exceed the rectangle area will be centered.
+     * @api
      * @param Size $contain_area
      * @param string $background_color
      * @return Image
@@ -205,6 +237,7 @@ class Image
      */
     public function contain(Size $contain_area, $background_color = 'transparent') : Image {
         if ( $contain_area->isAreaEmpty() ) {
+            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\InvalidSizeException($contain_area);
         }
 
@@ -225,6 +258,7 @@ class Image
 
     /**
      * Write the image to a file.
+     * @api
      * @param string $filename
      * @return string
      */
@@ -236,7 +270,7 @@ class Image
     /**
      * Get the imagick image object.
      *
-     * Use at your own risk. Just use read only methods.
+     * @internal Use at your own risk. Just use read only methods.
      * @return Imagick
      */
     public function getImagickImage() : Imagick {

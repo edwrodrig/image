@@ -3,10 +3,16 @@ declare(strict_types=1);
 
 namespace edwrodrig\image\util;
 
+/**
+ * Class Util
+ * @package edwrodrig\image\util
+ * @internal
+ */
 class Util
 {
     /**
      * Just execute a command.
+     * @internal
      * @param string $command Command to execute
      * @param null|string $current_working_dir The current working dir
      * @param array $env Environment variables The environment variables in an key value array
@@ -33,6 +39,7 @@ class Util
         $std_err = stream_get_contents($pipes[2]);
         fclose($pipes[2]);
         $return = proc_close($process);
+        /** @noinspection PhpInternalEntityUsedInspection */
         return new CommandReturn($return, $std_out, $std_err);
     }
 
