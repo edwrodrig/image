@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\edwrodrig\image;
+namespace test\edwrodrig\image;
 
 use edwrodrig\image\Compare;
 use PHPUnit\Framework\TestCase;

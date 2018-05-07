@@ -6,7 +6,7 @@
  * Time: 22:14
  */
 
-namespace tests\edwrodrig\image;
+namespace test\edwrodrig\image;
 
 use edwrodrig\image\Image;
 use edwrodrig\image\Size;

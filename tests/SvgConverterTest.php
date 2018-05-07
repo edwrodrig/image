@@ -6,7 +6,7 @@
  * Time: 16:28
  */
 
-namespace tests\edwrodrig\image;
+namespace test\edwrodrig\image;
 
 use edwrodrig\image\SvgConverter;
 use PHPUnit\Framework\TestCase;

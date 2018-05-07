@@ -6,7 +6,7 @@
  * Time: 11:30
  */
 
-namespace tests\edwrodrig\image;
+namespace test\edwrodrig\image;
 
 use edwrodrig\image\Size;
 use PHPUnit\Framework\TestCase;
