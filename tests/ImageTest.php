@@ -11,10 +11,21 @@ namespace test\edwrodrig\image;
 use edwrodrig\image\Image;
 use edwrodrig\image\Size;
 use Imagick;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 
 class ImageTest extends TestCase
 {
+    /**
+     * @var vfsStreamDirectory
+     */
+    private $root;
+
+    public function setUp() {
+        $this->root = vfsStream::setup();
+    }
+
     /**
      * We need to compare ImageSignature
      * because file data are not equals between different generations.
@@ -43,10 +54,10 @@ class ImageTest extends TestCase
     {
         $image = Image::createFromFile(__DIR__ . '/files/original/goku.jpg');
         $image->makeSuperThumbnail(100, 100);
-        $image->writeImage('/tmp/out.jpg');
+        $image->writeImage($this->root->url() .'/out.jpg');
         $this->assertImageEquals(
             __DIR__ . '/files/expected/goku_thumb.jpg',
-            '/tmp/out.jpg'
+            $this->root->url() .'/out.jpg'
         );
     }
 
@@ -61,10 +72,10 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/goku.jpg');
         $image->scaleImage(500, 200);
         $image->optimizePhoto();
-        $image->writeImage('/tmp/out.jpg');
+        $image->writeImage($this->root->url() .'/out.jpg');
         $this->assertImageEquals(
             __DIR__ . '/files/expected/goku_500_200.jpg',
-            '/tmp/out.jpg'
+            $this->root->url() .'/out.jpg'
         );
     }
 
@@ -78,11 +89,14 @@ class ImageTest extends TestCase
     {
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->makeSuperThumbnail(100, 100);
-        $image->writeImage('/tmp/out.jpg');
+        $image->writeImage($this->root->url() .'/out.jpg');
+
+        copy($this->root->url() .'/out.jpg', '/tmp/sdafasdf.jpg');
         $this->assertImageEquals(
             __DIR__ . '/files/expected/ssj_thumb.jpg',
-            '/tmp/out.jpg'
+            $this->root->url() .'/out.jpg'
         );
+
     }
 
     /**
@@ -99,11 +113,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->scaleImage(500, 200);
         $image->optimizeLossless();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/ssj_500_200.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -117,10 +131,10 @@ class ImageTest extends TestCase
     {
         $image = Image::createFromFile(__DIR__ . '/files/original/dbz.svg', 1000);
         $image->makeSuperThumbnail(100, 100);
-        $image->writeImage('/tmp/out.jpg');
+        $image->writeImage($this->root->url() .'/out.jpg');
         $this->assertImageEquals(
             __DIR__ . '/files/expected/dbz_thumb.jpg',
-            '/tmp/out.jpg'
+            $this->root->url() .'/out.jpg'
         );
     }
 
@@ -135,11 +149,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/dbz.svg', 1000);
         $image->scaleImage(500, 500);
         $image->optimizeLossLess();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/dbz_500_500.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -154,11 +168,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/dbz.svg', 2000);
         $image->scaleImage(1500, 1500);
         $image->optimizeLossLess();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/dbz_1500_1500.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -173,11 +187,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/browser.svg', 500);
         $image->scaleImage(500, 500);
         $image->optimizeLossLess();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/browser_500_500.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -192,11 +206,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->cover(new Size(200, 200));
         $image->optimizeLossless();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/ssj_cover_200_200.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -211,11 +225,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->cover(new Size(90, 132));
         $image->optimizeLossless();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/ssj_cover_90_132.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -231,11 +245,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->contain(new Size(200, 200));
         $image->optimizeLossless();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/ssj_contain_200_200.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -251,11 +265,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->contain(new Size(90, 132));
         $image->optimizeLossless();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/ssj_contain_90_132.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -271,11 +285,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/favicon.png');
         $image->contain(new Size(20, 20), 'red');
         $image->optimizeLossless();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/favicon_contain_background_20_20.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -291,11 +305,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/favicon.png');
         $image->contain(new Size(90, 132), 'red');
         $image->optimizeLossless();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/favicon_contain_background_90_132.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -311,11 +325,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/eroulette.svg', 1000);
         $image->contain(new Size(152, 152));
         $image->optimizeLossLess();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/eroulette_contain_152_152.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -331,11 +345,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/eroulette.svg', 1000);
         $image->contain(new Size(30, 50));
         $image->optimizeLossLess();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/eroulette_contain_30_50.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -351,11 +365,11 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/eroulette.svg', 1000);
         $image->contain(new Size(50, 30), ' blue');
         $image->optimizeLossLess();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/eroulette_contain_50_30.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -372,11 +386,11 @@ class ImageTest extends TestCase
         $image->colorOverlay('red');
         $image->contain(new Size(152, 152), ' transparent');
         $image->optimizeLossLess();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/amanda_152_152.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -393,11 +407,11 @@ class ImageTest extends TestCase
         $image->colorOverlay('green');
         $image->contain(new Size(16, 16), ' transparent');
         $image->optimizeLossLess();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/amanda_16_16.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
@@ -414,11 +428,11 @@ class ImageTest extends TestCase
         $image->colorOverlay('blue');
         $image->contain(new Size(30, 50), ' yellow');
         $image->optimizeLossLess();
-        $image->writeImage('/tmp/out.png');
+        $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/amanda_30_50.png',
-            '/tmp/out.png'
+            $this->root->url() .'/out.png'
         );
     }
 
