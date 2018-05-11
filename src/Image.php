@@ -169,7 +169,7 @@ class Image
      * @return Image
      */
     public function optimizePhoto() : Image {
-        $this->imagick->setImageCompression(\Imagick::COMPRESSION_JPEG);
+        $this->imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
         $this->setOptimizedChromaSubSampling();
         $this->imagick->setImageCompressionQuality(75);
         $this->imagick->stripImage();
@@ -280,7 +280,12 @@ class Image
      * @return string
      */
     public function writeImage(string $filename) : string {
-        $this->imagick->writeImage($filename);
+        $this->imagick->setImageFilename($filename);
+
+        //need to force a fopen because unadcepted streams, like vfs://
+        $file = fopen($filename, 'w+');
+            $this->imagick->writeImageFile($file);
+        fclose($file);
         return $filename;
     }
 
