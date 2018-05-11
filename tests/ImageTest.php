@@ -85,6 +85,24 @@ class ImageTest extends TestCase
      * @throws \edwrodrig\image\exception\InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
+    public function testOptimizePhotoAuto()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/goku.jpg');
+        $image->scaleImage(500, 200);
+        $image->optimize();
+        $image->writeImage($this->root->url() .'/out.jpg');
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/goku_500_200.jpg',
+            $this->root->url() .'/out.jpg'
+        );
+    }
+
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
     public function testSuperThumbnail2()
     {
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
@@ -100,9 +118,6 @@ class ImageTest extends TestCase
     }
 
     /**
-     * We need to compare ImageSignature
-     * because file data are not equals between different generations.
-     * Maybe some time related info is saved in png file metadata
      * @throws \ImagickException
      * @throws \edwrodrig\image\exception\ConvertingSvgException
      * @throws \edwrodrig\image\exception\InvalidImageException
@@ -113,6 +128,25 @@ class ImageTest extends TestCase
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
         $image->scaleImage(500, 200);
         $image->optimizeLossless();
+        $image->writeImage($this->root->url() .'/out.png');
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/ssj_500_200.png',
+            $this->root->url() .'/out.png'
+        );
+    }
+
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testOptimizeLosslessAuto()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
+        $image->scaleImage(500, 200);
+        $image->optimize();
         $image->writeImage($this->root->url() .'/out.png');
 
         $this->assertImageEquals(
