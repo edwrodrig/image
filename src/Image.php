@@ -177,6 +177,23 @@ class Image
     }
 
     /**
+     * Optimize according the mime type.
+     *
+     * This is useful when you don't know which conversion is better due the original format of the image
+     * @see Image::optimizePhoto()
+     * @see Image::optimizeLossless()
+     * @return Image
+     */
+    public function optimize() : Image {
+        if ( $this->imagick->getImageMimeType() === 'image/jpeg' ) {
+            $this->optimizePhoto();
+        } else {
+            $this->optimizeLossless();
+        }
+        return $this;
+    }
+
+    /**
      * Applies a color overlay to the image.
      *
      * It is used to colorize white silhouettes. For example, a white square is colorized to a red square.
