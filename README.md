@@ -5,6 +5,10 @@ Library to create optimized images and thumbnails for web, and compare images.
 [![Latest Stable Version](https://poser.pugx.org/edwrodrig/image/v/stable)](https://packagist.org/packages/edwrodrig/image)
 [![Total Downloads](https://poser.pugx.org/edwrodrig/image/downloads)](https://packagist.org/packages/edwrodrig/image)
 [![License](https://poser.pugx.org/edwrodrig/image/license)](https://packagist.org/packages/edwrodrig/image)
+[![Build Status](https://travis-ci.org/edwrodrig/image.svg?branch=master)](https://travis-ci.org/edwrodrig/image)
+[![codecov.io Code Coverage](https://codecov.io/gh/edwrodrig/image/branch/master/graph/badge.svg)](https://codecov.io/github/edwrodrig/image?branch=master)
+[![Code Climate](https://codeclimate.com/github/edwrodrig/image/badges/gpa.svg)](https://codeclimate.com/github/edwrodrig/image)
+
 
 ## My use cases
 
