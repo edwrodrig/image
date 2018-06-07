@@ -26,6 +26,11 @@ class CompareTest extends TestCase
         );
     }
 
+    public function assertSimilar(float $expected, float $actual) {
+        $this->assertGreaterThanOrEqual($expected - 0.005, $actual);
+        $this->assertLessThanOrEqual($expected + 0.005, $actual);
+    }
+
     /**
      * @throws \ImagickException
      * @throws \edwrodrig\image\exception\CompareCommandException
@@ -52,8 +57,8 @@ class CompareTest extends TestCase
         $compare_inner_2 = Compare::compare($group_2[0], $group_2[1]);
 
 
-        $this->assertEquals(0.03794, $compare_inner_1);
-        $this->assertEquals(0.067887, $compare_inner_2);
+        $this->assertSimilar(0.03794, $compare_inner_1);
+        $this->assertSimilar(0.067887, $compare_inner_2);
 
         foreach ($group_1 as $file_1) {
             foreach ($group_2 as $file_2) {
