@@ -96,7 +96,7 @@ class CompareTest extends TestCase
     }
     /**
      * @expectedException \edwrodrig\image\exception\CompareCommandException
-     * @expectedExceptionMessage compare: unable to open image
+     * @expectedExceptionMessage : unable to open image
      */
     public function testFileNotExistant() {
         $compare = new Compare;
