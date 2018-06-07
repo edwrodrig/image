@@ -6,7 +6,8 @@ php:
 
 before_install:
     - printf "\n" | pecl install imagick
-    - sudo apt-get update && sudo apt-get --reinstall install -qq language-pack-en language-pack-es && sudo apt-get install librsvg2
+    - sudo apt-get update
+    - sudo apt-get install -y librsvg2-bin
 
 
 install:
