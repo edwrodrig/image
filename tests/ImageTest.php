@@ -38,9 +38,10 @@ class ImageTest extends TestCase
     {
         $expected_image = new Imagick($expected_image);
         $actual_image = new Imagick($actual_image);
+        $result = $actual_image->compareImages($expected_image, Imagick::METRIC_MEANSQUAREERROR);
         $this->assertEquals(
-            $expected_image->getImageSignature(),
-            $actual_image->getImageSignature()
+            0.0,
+            $result[1]
         );
     }
 
