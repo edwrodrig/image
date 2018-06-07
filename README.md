@@ -25,7 +25,7 @@ Library to create optimized images and thumbnails for web, and compare images.
 It needs __rsvg-convert__ to convert svg images nicely. Also need __compare__ to make image comparisons.
 You can install these dependencies in Ubuntu 16.04 with the following commands.
 ```
-sudo apt install librsvg2 imagemagick
+sudo apt install librsvg2-bin php-imagick
 ```
 
 ## Documentation
