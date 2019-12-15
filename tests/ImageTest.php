@@ -54,7 +54,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testCreateSuperThumbnail()
     {
@@ -71,7 +71,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizePhoto()
     {
@@ -89,7 +89,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizePhotoAuto()
     {
@@ -107,7 +107,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testSuperThumbnail2()
     {
@@ -127,7 +127,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLossless()
     {
@@ -146,7 +146,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessAuto()
     {
@@ -165,7 +165,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testThumbnailSvg()
     {
@@ -182,7 +182,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessFromSvg()
     {
@@ -201,7 +201,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessFromSvg2()
     {
@@ -220,7 +220,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessFromSvg3()
     {
@@ -239,7 +239,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessCover()
     {
@@ -258,7 +258,7 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessCover2()
     {
@@ -278,7 +278,7 @@ class ImageTest extends TestCase
      * @throws ConvertingSvgException
      * @throws InvalidImageException
      * @throws InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessContain()
     {
@@ -298,7 +298,7 @@ class ImageTest extends TestCase
      * @throws ConvertingSvgException
      * @throws InvalidImageException
      * @throws InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessContain2()
     {
@@ -318,7 +318,7 @@ class ImageTest extends TestCase
      * @throws ConvertingSvgException
      * @throws InvalidImageException
      * @throws InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessContainBackground()
     {
@@ -338,7 +338,7 @@ class ImageTest extends TestCase
      * @throws ConvertingSvgException
      * @throws InvalidImageException
      * @throws InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessContainBackground2()
     {
@@ -358,7 +358,7 @@ class ImageTest extends TestCase
      * @throws ConvertingSvgException
      * @throws InvalidImageException
      * @throws InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessContainFromSvg()
     {
@@ -378,7 +378,7 @@ class ImageTest extends TestCase
      * @throws ConvertingSvgException
      * @throws InvalidImageException
      * @throws InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessContainFromSvg2()
     {
@@ -398,7 +398,7 @@ class ImageTest extends TestCase
      * @throws ConvertingSvgException
      * @throws InvalidImageException
      * @throws InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testOptimizeLosslessContainFromSvg3()
     {
@@ -418,7 +418,7 @@ class ImageTest extends TestCase
      * @throws ConvertingSvgException
      * @throws InvalidImageException
      * @throws InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testColorOverlay()
     {
@@ -439,7 +439,7 @@ class ImageTest extends TestCase
      * @throws ConvertingSvgException
      * @throws InvalidImageException
      * @throws InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testColorOverlay2()
     {
@@ -460,7 +460,7 @@ class ImageTest extends TestCase
      * @throws ConvertingSvgException
      * @throws InvalidImageException
      * @throws InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws WrongFormatException
      */
     public function testColorOverlay3()
     {
