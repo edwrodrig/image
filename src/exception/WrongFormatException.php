@@ -15,9 +15,11 @@ class WrongFormatException extends Exception
 {
 
     private string $mimeType;
+
     /**
      * WrongFormatException constructor.
      * @param string $output
+     * @param string $mimeType
      * @internal
      */
     public function __construct(string $output, string $mimeType) {

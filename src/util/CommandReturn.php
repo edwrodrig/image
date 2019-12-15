@@ -14,15 +14,15 @@ class CommandReturn
     /**
      * @var int
      */
-    private $exit_code;
+    private int $exit_code;
     /**
      * @var string
      */
-    private $std_out;
+    private string $std_out;
     /**
      * @var string
      */
-    private $std_err;
+    private string $std_err;
     /**
      * CommandReturn constructor.
      * @param int $exit_code the exit code

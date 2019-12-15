@@ -18,13 +18,13 @@ class Size
      * The width of the image
      * @var int
      */
-    private $width;
+    private int $width;
 
     /**
      * The height of the image
      * @var int
      */
-    private $height;
+    private int $height;
 
 
     /**

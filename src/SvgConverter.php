@@ -20,7 +20,7 @@ class SvgConverter
     /**
      * @var string
      */
-    private $executable = 'rsvg-convert';
+    private string $executable = 'rsvg-convert';
 
     /**
      * @var string
@@ -30,7 +30,7 @@ class SvgConverter
     /**
      * @var int
      */
-    private $width = 1000;
+    private int $width = 1000;
 
     /**
      * SvgConverter constructor.

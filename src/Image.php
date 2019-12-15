@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace edwrodrig\image;
 
 use Imagick;
+use ImagickException;
+use ImagickPixel;
 
 /**
  * Class Image.
@@ -24,10 +26,7 @@ use Imagick;
  */
 class Image
 {
-    /**
-     * @var Imagick
-     */
-    private $imagick;
+    private Imagick $imagick;
 
     /**
      * Image constructor.
@@ -65,7 +64,7 @@ class Image
      * @param int $svg_width For more information see this {@see SvgConverter::setWidth() these information}
      * @uses SvgConverter To process SVG files
      * @return Image
-     * @throws \ImagickException
+     * @throws ImagickException
      * @throws exception\ConvertingSvgException
      * @throws exception\InvalidImageException
      * @throws exception\WrongFormatException
@@ -75,7 +74,7 @@ class Image
 
         if ($type === 'image/png' || $type === 'image/jpeg') {
             $img = new Imagick;
-            $img->setBackgroundColor(new \ImagickPixel("transparent"));
+            $img->setBackgroundColor(new ImagickPixel("transparent"));
             $img->readImage($filename);
             return new Image($img);
         } else if ($type === 'image/svg+xml' || $type === 'image/svg' ) {
@@ -100,7 +99,7 @@ class Image
      * @param int $width
      * @param int $height
      * @return Image
-     * @throws \ImagickException
+     * @throws ImagickException
      */
     public function scaleImage(int $width, int $height) : Image {
         $this->imagick->scaleImage($width, $height, true, true);
@@ -120,7 +119,7 @@ class Image
      * @param int $columns
      * @param int $rows
      * @return Image
-     * @throws \ImagickException
+     * @throws ImagickException
      */
     public function makeSuperThumbnail(int $columns, int $rows) : Image {
         $this->imagick->scaleImage($columns, $rows , true , true);
@@ -152,8 +151,9 @@ class Image
      * Optimize the image for lossless output.
      *
      * This function just strip the image.
-     * @api
      * @return Image
+     * @noinspection SpellCheckingInspection
+     * @api
      */
     public function optimizeLossless() : Image {
         $this->imagick->stripImage();
@@ -201,7 +201,7 @@ class Image
      * @api
      * @param string $color
      * @return Image
-     * @throws \ImagickException
+     * @throws ImagickException
      */
     public function colorOverlay(string $color) {
         $overlay = new Imagick;
@@ -219,7 +219,7 @@ class Image
      * @api
      * @param Size $cover_area
      * @return Image
-     * @throws \ImagickException
+     * @throws ImagickException
      */
     public function cover(Size $cover_area) : Image {
         if ( $cover_area->isAreaEmpty() ) {
@@ -249,7 +249,7 @@ class Image
      * @param Size $contain_area
      * @param string $background_color
      * @return Image
-     * @throws \ImagickException
+     * @throws ImagickException
      * @throws exception\InvalidSizeException
      */
     public function contain(Size $contain_area, $background_color = 'transparent') : Image {
@@ -282,7 +282,7 @@ class Image
     public function writeImage(string $filename) : string {
         $this->imagick->setImageFilename($filename);
 
-        //need to force a fopen because unadcepted streams, like vfs://
+        //need to force a fopen because unaccepted streams, like vfs://
         $file = fopen($filename, 'w+');
             $this->imagick->writeImageFile($file);
         fclose($file);
