@@ -86,19 +86,23 @@ class CompareTest extends TestCase
 
 
     /**
-     * @expectedException \edwrodrig\image\exception\CompareCommandException
-     * @expectedExceptionMessage sh: 1: not_existant: not found
+
      */
     public function testExecutableNotExistant() {
+        $this->expectException(\edwrodrig\image\exception\CompareCommandException::class);
+        $this->expectExceptionMessage("sh: 1: not_existant: not found");
+
         $compare = new Compare;
         $compare->setExecutable('not_existant');
         $compare->runCompareCommand('/dev/null', '/dev/null');
     }
     /**
-     * @expectedException \edwrodrig\image\exception\CompareCommandException
-     * @expectedExceptionMessage : unable to open image
+
      */
     public function testFileNotExistant() {
+        $this->expectException(\edwrodrig\image\exception\CompareCommandException::class);
+        $this->expectExceptionMessage("unable to open image");
+        
         $compare = new Compare;
         $compare->runCompareCommand('unexistant_image_1', 'unexistant_image_2');
     }

@@ -13,12 +13,19 @@ use Exception;
  */
 class WrongFormatException extends Exception
 {
+
+    private string $mimeType;
     /**
      * WrongFormatException constructor.
      * @param string $output
      * @internal
      */
-    public function __construct(string $output) {
+    public function __construct(string $output, string $mimeType) {
         parent::__construct($output);
+        $this->mimeType = $mimeType;
+    }
+
+    public function getMimeType() : string {
+        return $this->mimeType;
     }
 }

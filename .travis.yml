@@ -2,7 +2,7 @@ language: php
 
 php:
   - 7.2
-  - nightly
+  #- nightly
 
 before_install:
     - printf "\n" | pecl install imagick

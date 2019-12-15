@@ -8,6 +8,7 @@
 
 namespace test\edwrodrig\image;
 
+use edwrodrig\image\exception\WrongFormatException;
 use edwrodrig\image\Image;
 use edwrodrig\image\Size;
 use Imagick;
@@ -22,7 +23,7 @@ class ImageTest extends TestCase
      */
     private $root;
 
-    public function setUp() {
+    public function setUp() : void {
         $this->root = vfsStream::setup();
     }
 
@@ -467,6 +468,34 @@ class ImageTest extends TestCase
 
         $this->assertImageEquals(
             __DIR__ . '/files/expected/amanda_30_50.png',
+            $this->root->url() .'/out.png'
+        );
+    }
+
+    /**
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     */
+    public function testStrangeHwFile()
+    {
+        try {
+            $image = Image::createFromFile(__DIR__ . '/files/original/hw.svg', 1000);
+            $image->contain(new Size(30, 50));
+            $image->writeImage($this->root->url() . '/out.png');
+            //To generate the initial file
+            //copy($this->root->url() . '/hw.png', __DIR__ . '/files/expected/hw_30_50.png');
+
+        } catch ( WrongFormatException $e) {
+            $this->fail($e->getMimeType());
+        }
+
+
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/hw_30_50.png',
             $this->root->url() .'/out.png'
         );
     }

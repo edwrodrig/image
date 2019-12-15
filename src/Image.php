@@ -78,7 +78,7 @@ class Image
             $img->setBackgroundColor(new \ImagickPixel("transparent"));
             $img->readImage($filename);
             return new Image($img);
-        } else if ($type === 'image/svg+xml' ) {
+        } else if ($type === 'image/svg+xml' || $type === 'image/svg' ) {
             $converter = new SvgConverter;
             $converter->setWidth($svg_width);
 
@@ -89,7 +89,7 @@ class Image
             return $image;
         } else {
             /** @noinspection PhpInternalEntityUsedInspection */
-            throw new exception\WrongFormatException($filename);
+            throw new exception\WrongFormatException($filename, $type);
         }
     }
 
