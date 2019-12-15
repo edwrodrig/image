@@ -4,8 +4,7 @@ declare(strict_types=1);
 namespace edwrodrig\image;
 
 
-use /** @noinspection PhpInternalEntityUsedInspection */
-    edwrodrig\image\util\Util;
+use edwrodrig\image\util\Util;
 use ImagickException;
 
 /**
@@ -40,7 +39,6 @@ class Compare
      */
     public function doesExecutableExists() : bool {
         $version_command = sprintf('%s --version', $this->executable);
-        /** @noinspection PhpInternalEntityUsedInspection */
         if ( $result = Util::runCommand($version_command) ) {
             if ( $result->getExitCode() == 0 )
                 return true;
@@ -81,7 +79,6 @@ class Compare
      * @throws exception\CompareCommandException
      */
     public function runCompareCommand(string $filename_1, string $filename_2) : float {
-        /** @noinspection PhpInternalEntityUsedInspection */
         $command = Util::runCommand($this->getCompareCommand($filename_1, $filename_2));
 
         /**
@@ -95,12 +92,10 @@ class Compare
                 $number = filter_var(trim($matches[1]), FILTER_VALIDATE_FLOAT);
                 if ($number !== FALSE) return $number;
                 else {
-                    /** @noinspection PhpInternalEntityUsedInspection */
                     throw new exception\CompareCommandException($command->getStdErrOrOut());
                 }
             }
         }
-        /** @noinspection PhpInternalEntityUsedInspection */
         throw new exception\CompareCommandException($command->getStdErrOrOut());
     }
 

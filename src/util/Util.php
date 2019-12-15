@@ -39,7 +39,6 @@ class Util
         $std_err = stream_get_contents($pipes[2]);
         fclose($pipes[2]);
         $return = proc_close($process);
-        /** @noinspection PhpInternalEntityUsedInspection */
         return new CommandReturn($return, $std_out, $std_err);
     }
 

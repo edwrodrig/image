@@ -3,18 +3,24 @@
 namespace test\edwrodrig\image;
 
 use edwrodrig\image\Compare;
+use edwrodrig\image\exception\CompareCommandException;
+use edwrodrig\image\exception\ConvertingSvgException;
+use edwrodrig\image\exception\InvalidImageException;
+use edwrodrig\image\exception\InvalidSizeException;
+use edwrodrig\image\exception\WrongFormatException;
+use ImagickException;
 use PHPUnit\Framework\TestCase;
 
 class CompareTest extends TestCase
 {
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\CompareCommandException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws ImagickException
+     * @throws CompareCommandException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
+     * @throws WrongFormatException
      */
     public function testCompareSameFile() {
         $this->assertEquals(
@@ -32,12 +38,12 @@ class CompareTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\CompareCommandException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws ImagickException
+     * @throws CompareCommandException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
+     * @throws WrongFormatException
      */
     public function testCompareDifferent()
     {
@@ -70,7 +76,7 @@ class CompareTest extends TestCase
     }
 
     /**
-     * @throws \edwrodrig\image\exception\CompareCommandException
+     * @throws CompareCommandException
      */
     public function testCompareDissimilar()
     {
@@ -89,7 +95,7 @@ class CompareTest extends TestCase
 
      */
     public function testExecutableNotExistant() {
-        $this->expectException(\edwrodrig\image\exception\CompareCommandException::class);
+        $this->expectException(CompareCommandException::class);
         $this->expectExceptionMessage("sh: 1: not_existant: not found");
 
         $compare = new Compare;
@@ -100,9 +106,9 @@ class CompareTest extends TestCase
 
      */
     public function testFileNotExistant() {
-        $this->expectException(\edwrodrig\image\exception\CompareCommandException::class);
+        $this->expectException(CompareCommandException::class);
         $this->expectExceptionMessage("unable to open image");
-        
+
         $compare = new Compare;
         $compare->runCompareCommand('unexistant_image_1', 'unexistant_image_2');
     }

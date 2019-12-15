@@ -8,10 +8,14 @@
 
 namespace test\edwrodrig\image;
 
+use edwrodrig\image\exception\ConvertingSvgException;
+use edwrodrig\image\exception\InvalidImageException;
+use edwrodrig\image\exception\InvalidSizeException;
 use edwrodrig\image\exception\WrongFormatException;
 use edwrodrig\image\Image;
 use edwrodrig\image\Size;
 use Imagick;
+use ImagickException;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +37,7 @@ class ImageTest extends TestCase
      * Maybe some time related info is saved in png file metadata
      * @param string $expected_image
      * @param string $actual_image
-     * @throws \ImagickException
+     * @throws ImagickException
      */
     public function assertImageEquals(string $expected_image, string $actual_image)
     {
@@ -47,9 +51,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testCreateSuperThumbnail()
@@ -64,9 +68,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizePhoto()
@@ -82,9 +86,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizePhotoAuto()
@@ -100,9 +104,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testSuperThumbnail2()
@@ -120,9 +124,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLossless()
@@ -139,9 +143,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessAuto()
@@ -158,9 +162,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testThumbnailSvg()
@@ -175,9 +179,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessFromSvg()
@@ -194,9 +198,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessFromSvg2()
@@ -213,9 +217,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessFromSvg3()
@@ -232,9 +236,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessCover()
@@ -251,9 +255,9 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessCover2()
@@ -270,10 +274,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessContain()
@@ -290,10 +294,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessContain2()
@@ -310,10 +314,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessContainBackground()
@@ -330,10 +334,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessContainBackground2()
@@ -350,10 +354,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessContainFromSvg()
@@ -370,10 +374,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessContainFromSvg2()
@@ -390,10 +394,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testOptimizeLosslessContainFromSvg3()
@@ -410,10 +414,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testColorOverlay()
@@ -431,10 +435,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testColorOverlay2()
@@ -452,10 +456,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testColorOverlay3()
@@ -473,10 +477,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
      * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testStrangeHwFile()

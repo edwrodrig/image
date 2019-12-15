@@ -8,6 +8,8 @@
 
 namespace test\edwrodrig\image;
 
+use edwrodrig\image\exception\ConvertingSvgException;
+use edwrodrig\image\exception\InvalidImageException;
 use edwrodrig\image\SvgConverter;
 use PHPUnit\Framework\TestCase;
 
@@ -24,8 +26,8 @@ class SvgConverterTest extends TestCase
     }
 
     /**
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      */
     public function testConvert() {
         $converter = new SvgConverter;

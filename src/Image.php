@@ -87,7 +87,6 @@ class Image
             $image->trimTransparentPixels();
             return $image;
         } else {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\WrongFormatException($filename, $type);
         }
     }
@@ -254,7 +253,6 @@ class Image
      */
     public function contain(Size $contain_area, $background_color = 'transparent') : Image {
         if ( $contain_area->isAreaEmpty() ) {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\InvalidSizeException($contain_area);
         }
 

@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace edwrodrig\image;
 
-use /** @noinspection PhpInternalEntityUsedInspection */
-    edwrodrig\image\util\Util;
+use edwrodrig\image\util\Util;
 
 /**
  * Class SvgConverter
@@ -77,7 +76,6 @@ class SvgConverter
      */
     public function doesExecutableExists() : bool {
         $version_command = sprintf('%s --version', $this->executable);
-        /** @noinspection PhpInternalEntityUsedInspection */
         if ( $result = Util::runCommand($version_command) ) {
             if ( $result->getExitCode() == 0 )
                 return true;
@@ -118,19 +116,16 @@ class SvgConverter
         file_put_contents($tempnam_in, file_get_contents($filename));
 
         //need to create a png output of the file
-        /** @noinspection PhpInternalEntityUsedInspection */
         $result = Util::runCommand($this->getConvertCommand($tempnam_in));
 
         unlink($tempnam_in);
 
         if ($result->getExitCode() !== 0) {
 
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\ConvertingSvgException($result->getStdErrOrOut());
         }
 
         if ( mime_content_type($this->png_output) !== 'image/png' ) {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\InvalidImageException($this->png_output);
         }
 
