@@ -92,7 +92,7 @@ class CompareTest extends TestCase
 
 
     /**
-
+     * @throws CompareCommandException
      */
     public function testExecutableNotExistant() {
         $this->expectException(CompareCommandException::class);
@@ -102,8 +102,9 @@ class CompareTest extends TestCase
         $compare->setExecutable('not_existant');
         $compare->runCompareCommand('/dev/null', '/dev/null');
     }
-    /**
 
+    /**
+     * @throws CompareCommandException
      */
     public function testFileNotExistant() {
         $this->expectException(CompareCommandException::class);

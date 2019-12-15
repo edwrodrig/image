@@ -114,7 +114,7 @@ class Size
      * Get a scaled size in order to cover an area.
      *
      * Always the size is bigger than or equals the cover area
-     * @see \tests\edwrodrig\image\SizeTest::testScaleByCoverArea() Tests
+     * @see \test\edwrodrig\image\SizeTest::testScaleByCoverArea() Tests
      * @api
      * @param Size $cover_area
      * @return Size
@@ -133,7 +133,7 @@ class Size
      * Get a scaled size in order to contain an area.
      *
      * Always the size is smaller than or equals the contain area.
-     * @see \tests\edwrodrig\image\SizeTest::testScaleByContainArea() Tests
+     * @see \test\edwrodrig\image\SizeTest::testScaleByContainArea() Tests
      * @api
      * @param Size $contain_area
      * @return Size

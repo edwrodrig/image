@@ -25,7 +25,7 @@ class ImageTest extends TestCase
     /**
      * @var vfsStreamDirectory
      */
-    private $root;
+    private vfsStreamDirectory $root;
 
     public function setUp() : void {
         $this->root = vfsStream::setup();
@@ -477,11 +477,10 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @throws ImagickException
      * @throws ConvertingSvgException
+     * @throws ImagickException
      * @throws InvalidImageException
      * @throws InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
      */
     public function testStrangeHwFile()
     {
