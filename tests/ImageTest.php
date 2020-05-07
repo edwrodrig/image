@@ -362,6 +362,25 @@ class ImageTest extends TestCase
      * @throws InvalidImageException
      * @throws WrongFormatException
      */
+    public function testCropImage1x1_2x2_200dpi()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
+        $image->cropImage(1, 1, 2, 2, 300);
+        $image->optimizePhoto();
+        $image->writeImage($this->root->url() .'/out.png');
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/ssj_crop_1_1_2_2_300.jpg',
+            $this->root->url() .'/out.png'
+        );
+    }
+
+    /**
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws WrongFormatException
+     */
     public function testCover0x90()
     {
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
