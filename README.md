@@ -26,7 +26,7 @@ Library to create optimized images and thumbnails for web, and compare images.
 
 * [Create a super thumbnail](https://github.com/edwrodrig/image/blob/master/examples/create_super_thumbnail.php)
 
-  <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  <img width="200" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
   ⇨
   <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_thumb.jpg">
 
@@ -38,7 +38,7 @@ Library to create optimized images and thumbnails for web, and compare images.
 
 * Contain
 
-  <img alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  <img width="200" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
   ⇨
   <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_contain_200_200.png"> 
 ```
@@ -46,7 +46,7 @@ $image->contain(new Size(200, 200));
 ```
 * Cover
 
-  <img alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  <img width="200" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
   ⇨
   <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_200_200.png"> 
 ```
@@ -54,7 +54,7 @@ $image->cover(new Size(200, 200));
 ```    
 * Cover with automatic width
 
-  <img alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  <img width="200" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
   ⇨
   <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_0_90.png"> 
 ```
@@ -62,7 +62,7 @@ $image->cover(new Size(0, 90));
 ```
 * Cover with automatic height
 
-  <img alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  <img width="200" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
   ⇨
   <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_90_0.png"> 
 ```
