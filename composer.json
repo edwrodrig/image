@@ -34,7 +34,7 @@
     },
     "autoload-dev" : {
         "psr-4" : {
-            "edwrodrig\\image\\test" : "src/test/"
+            "edwrodrig\\image\\test\\" : "src/test/"
         }
     },
     "archive" : {
