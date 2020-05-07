@@ -32,39 +32,39 @@ Library to create optimized images and thumbnails for web, and compare images.
 
 * [Enhance document](https://github.com/edwrodrig/image/blob/master/examples/enhance_document.php)
 
-  <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/mindprint.jpg">
+  <img width="250" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/mindprint.jpg">
   ⇨
-  <img width="100" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/mindprint.jpg">
+  <img width="250" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/mindprint.jpg">
 
 * Contain
 
-  <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  <img alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
   ⇨
-  <img width="100" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_contain_200_200.png"> 
+  <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_contain_200_200.png"> 
 ```
 $image->contain(new Size(200, 200));
 ```
 * Cover
 
-  <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  <img alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
   ⇨
-  <img width="100" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_200_200.png"> 
+  <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_200_200.png"> 
 ```
 $image->cover(new Size(200, 200));
 ```    
 * Cover with automatic width
 
-  <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  <img alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
   ⇨
-  <img width="100" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_0_90.png"> 
+  <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_0_90.png"> 
 ```
 $image->cover(new Size(0, 90));
 ```
 * Cover with automatic height
 
-  <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  <img alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
   ⇨
-  <img width="100" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_90_0.png"> 
+  <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_90_0.png"> 
 ```
 $image->cover(new Size(90, 0));
 ```    
@@ -82,7 +82,7 @@ You can install these dependencies in Ubuntu 16.04 with the following commands.
 sudo apt install librsvg2-bin php-imagick
 ```
 
-##My current system information
+## My current system information
 Output of [system_info.sh](https://github.com/edwrodrig/image/blob/master/scripts/system_info.sh)
 ```
   Operating System: Ubuntu 16.04.6 LTS
