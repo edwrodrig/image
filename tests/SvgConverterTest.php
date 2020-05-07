@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 04-05-18
- * Time: 16:28
- */
-
-namespace test\edwrodrig\image;
+declare(strict_types=1);
 
 use edwrodrig\image\exception\ConvertingSvgException;
 use edwrodrig\image\exception\InvalidImageException;

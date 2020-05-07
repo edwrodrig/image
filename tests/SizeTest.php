@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 03-05-18
- * Time: 11:30
- */
-
-namespace test\edwrodrig\image;
+declare(strict_types=1);
 
 use edwrodrig\image\Size;
 use PHPUnit\Framework\TestCase;

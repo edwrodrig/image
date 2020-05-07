@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 03-05-18
- * Time: 22:14
- */
-
-namespace test\edwrodrig\image;
+declare(strict_types=1);
 
 use edwrodrig\image\exception\ConvertingSvgException;
 use edwrodrig\image\exception\InvalidImageException;
@@ -14,8 +7,6 @@ use edwrodrig\image\exception\InvalidSizeException;
 use edwrodrig\image\exception\WrongFormatException;
 use edwrodrig\image\Image;
 use edwrodrig\image\Size;
-use Imagick;
-use ImagickException;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;

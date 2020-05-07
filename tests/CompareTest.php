@@ -1,6 +1,5 @@
 <?php
-
-namespace test\edwrodrig\image;
+declare(strict_types=1);
 
 use edwrodrig\image\Compare;
 use edwrodrig\image\exception\CompareCommandException;
@@ -8,7 +7,6 @@ use edwrodrig\image\exception\ConvertingSvgException;
 use edwrodrig\image\exception\InvalidImageException;
 use edwrodrig\image\exception\InvalidSizeException;
 use edwrodrig\image\exception\WrongFormatException;
-use ImagickException;
 use PHPUnit\Framework\TestCase;
 
 class CompareTest extends TestCase
