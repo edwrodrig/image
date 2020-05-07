@@ -69,6 +69,24 @@ $image->cover(new Size(0, 90));
 $image->cover(new Size(90, 0));
 ```    
 
+* Contain to 200x200
+
+  <img width="300" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/mindprint.jpg">
+  ⇨
+  <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/mindprint_contain_200_200.jpg"> 
+```
+$image->contain(new Size(200, 200));
+```
+
+* Contain resize to 200x200
+
+  <img width="300" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/mindprint.jpg">
+  ⇨
+  <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/mindprint_contain_resize_200_200.jpg"> 
+```
+$image->containResize(new Size(200, 200));
+```    
+
 
 ## Composer
 ```

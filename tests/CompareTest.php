@@ -73,7 +73,7 @@ class CompareTest extends TestCase
 
 
         $this->assertSimilar(0.03794, $compare_inner_1);
-        $this->assertSimilar(0.067887, $compare_inner_2);
+        $this->assertSimilar(0.0580718, $compare_inner_2);
 
         foreach ($group_1 as $file_1) {
             foreach ($group_2 as $file_2) {

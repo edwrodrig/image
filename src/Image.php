@@ -345,6 +345,32 @@ class Image
      * @throws exception\InvalidSizeException
      */
     public function contain(Size $contain_area, $background_color = 'transparent') : Image {
+        $this->containResize($contain_area);
+
+        $scaled_area = Size::createFromImagick($this->imagick);
+
+        $this->imagick->setImageBackgroundColor($background_color);
+        $this->imagick->extentImage(
+            $contain_area->getWidth(),
+            $contain_area->getHeight(),
+            $scaled_area->getCenteredLeft($contain_area),
+            $scaled_area->getCenteredTop($contain_area)
+        );
+        return $this;
+    }
+
+    /**
+     * Makes the image to be contained in a rectangle but not filling the rectanble with blank space
+     *
+     * It is the behavior of {@see Imagick::scaleImage()}
+     * @api
+     * @see Image::contain()
+     * @param Size $contain_area
+     * @return Image
+     * @throws ImagickException
+     * @throws exception\InvalidSizeException
+     */
+    public function containResize(Size $contain_area) : Image {
         if ( $contain_area->isAreaEmpty() ) {
             throw new exception\InvalidSizeException($contain_area);
         }
@@ -354,13 +380,6 @@ class Image
 
         $this->imagick->scaleImage($scaled_area->getWidth(), $scaled_area->getHeight(), true, false);
 
-        $this->imagick->setImageBackgroundColor($background_color);
-        $this->imagick->extentImage(
-            $contain_area->getWidth(),
-            $contain_area->getHeight(),
-            $scaled_area->getCenteredLeft($contain_area),
-            $scaled_area->getCenteredTop($contain_area)
-        );
         return $this;
     }
 

@@ -324,6 +324,46 @@ class ImageTest extends TestCase
      * @throws InvalidSizeException
      * @throws WrongFormatException
      */
+    public function testOptimizeDocumentContain()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/mindprint.jpg');
+        $image->contain(new Size(200, 200));
+        $image->optimizeDocument();
+        $image->writeImage($this->root->url() .'/out.jpg');
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/mindprint_contain_200_200.jpg',
+            $this->root->url() .'/out.jpg'
+        );
+    }
+
+    /**
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
+     * @throws WrongFormatException
+     */
+    public function testOptimizeDocumentContainResize()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/mindprint.jpg');
+        $image->containResize(new Size(200, 200));
+        $image->optimizeDocument();
+        $image->writeImage($this->root->url() .'/out.jpg');
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/mindprint_contain_resize_200_200.jpg',
+            $this->root->url() .'/out.jpg'
+        );
+    }
+
+    /**
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
+     * @throws WrongFormatException
+     */
     public function testOptimizeLosslessContain2()
     {
         $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
