@@ -18,7 +18,9 @@ use ImagickPixel;
  *  - {@see Image::makeSuperThumbnail() make a super thumbnail}.
  *  - {@see Image::cover() cover an area with an image}.
  *  - {@see Image::contain() contain an image inside an area}.
- *  - {@see Image::optimizePhoto() make a optimized jpg}.
+ *  - {@see Image::optimizePhoto() make a optimized jpg for photos}.
+ *  - {@see Image::optimizeDocument() make a optimized jpg for documents}.
+ *  - {@see Image::enhanceDocument() enhance the colors of a document}.
  *
  * Finally you can {@see Image::writeImage() write the image} to a file
  * @package edwrodrig\image
@@ -34,7 +36,7 @@ class Image
      * @api
      * @param Imagick $imagick
      */
-    public function __construct(Imagick $imagick) {
+    protected function __construct(Imagick $imagick) {
         $this->imagick = $imagick;
     }
 
@@ -69,7 +71,7 @@ class Image
      * @throws exception\InvalidImageException
      * @throws exception\WrongFormatException
      */
-    public static function createFromFile(string $filename, int $svg_width = 1000) {
+    public static function createFromFile(string $filename, int $svg_width = 1000) : Image {
         $type = mime_content_type($filename);
 
         if ($type === 'image/png' || $type === 'image/jpeg') {
@@ -92,6 +94,20 @@ class Image
     }
 
     /**
+     * Create and image element from image blob.
+     * It is just a wrapper function for {@see Imagick::readImageBlob()}
+     *
+     * @param string $imageBlob
+     * @return Image
+     * @throws ImagickException
+     */
+    public static function createFromBlob(string $imageBlob) : Image {
+        $imagick = new Imagick;
+        $imagick->readImageBlob($imageBlob);
+        return new Image($imagick);
+    }
+
+    /**
      * Scales the image.
      * @uses Imagick::scaleImage() To scale the image
      * @api
@@ -104,7 +120,6 @@ class Image
         $this->imagick->scaleImage($width, $height, true, true);
         return $this;
     }
-
 
     /**
      * Create a super low sized thumbnail.
@@ -151,7 +166,6 @@ class Image
      *
      * This function just strip the image.
      * @return Image
-     * @noinspection SpellCheckingInspection
      * @api
      */
     public function optimizeLossless() : Image {
@@ -164,6 +178,7 @@ class Image
      * Optimize the image for photo output.
      *
      * This is used when you need photos and images without transparency.
+     * Uses a 75% quality and chroma subsampling
      * @api
      * @return Image
      */
@@ -176,11 +191,56 @@ class Image
     }
 
     /**
+     * Optimize the image for document output
+     *
+     * This is used when you need document files with lineart or diagrams.
+     * Uses a 80% quality and interlacing
+     * @see Image::enhanceDocument()
+     * @api
+     * @return $this
+     */
+    public function optimizeDocument() : Image {
+        $this->imagick->setImageFormat('jpg');
+        $this->imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
+        $this->imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
+        $this->imagick->setImageCompressionQuality(80);
+        $this->imagick->stripImage();
+        return $this;
+    }
+
+    /**
+     * Enhance the image for document output
+     *
+     * This image does something similar to CamScanner filter to enhance document.
+     * It makes the paper near to plain white and improves the contras of lines and shaped with more vivid colors.
+     * It tries to emulate the following imagemagicks command:
+     * ´´´
+     * convert input.jpg -normalize -level 10%,90% -contrast output.png
+     * ´´´
+     *
+     * @api
+     * @see Image::optimizeDocument()
+     * @return $this
+     */
+    public function enhanceDocument() : Image {
+        $this->imagick->normalizeImage();
+        $quantum = $this->imagick->getQuantum();
+        $gamma = $this->imagick->getImageGamma();
+
+
+        $this->imagick->levelImage($quantum * 0.1, $gamma, $quantum * 0.9);
+
+        $this->imagick->contrastImage(true);
+        return $this;
+    }
+
+    /**
      * Optimize according the mime type.
      *
      * This is useful when you don't know which conversion is better due the original format of the image
      * @see Image::optimizePhoto()
      * @see Image::optimizeLossless()
+     * @api
      * @return Image
      */
     public function optimize() : Image {
@@ -200,9 +260,8 @@ class Image
      * @api
      * @param string $color
      * @return Image
-     * @throws ImagickException
      */
-    public function colorOverlay(string $color) {
+    public function colorOverlay(string $color) : Image {
         $overlay = new Imagick;
         $overlay->newImage($this->imagick->getImageWidth(), $this->imagick->getImageHeight(), $color);
         $overlay->compositeImage($this->imagick, Imagick::COMPOSITE_COPYOPACITY, 0, 0);
@@ -285,6 +344,15 @@ class Image
             $this->imagick->writeImageFile($file);
         fclose($file);
         return $filename;
+    }
+
+    /**
+     * Get the image raw data as a string.
+     * @api
+     * @return string
+     */
+    public function getBlob() : string {
+        return $this->imagick->getImageBlob();
     }
 
     /**
