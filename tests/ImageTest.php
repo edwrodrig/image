@@ -742,4 +742,25 @@ class ImageTest extends TestCase
         $this->assertEquals($image->getImagickImage()->getImageBlob(), $image->getBlob());
     }
 
+    /**
+     * @throws ConvertingSvgException
+     * @throws ImagickException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
+     * @throws WrongFormatException
+     */
+    public function testCropRotate() {
+        $image = Image::createFromFile(__DIR__ . '/files/original/mindprint.jpg');
+        $image->cropImage(0, 0, 400, 600);
+        $image->rotateClockwise();
+        $image->containResize(new Size(200, 200));
+        $image->optimizeDocument();
+        $image->writeImage($this->root->url() .'/out.jpg');
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/mindprint_crop_rotate.jpg',
+            $this->root->url() .'/out.jpg'
+        );
+    }
+
 }
