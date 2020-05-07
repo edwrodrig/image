@@ -22,17 +22,6 @@ Library to create optimized images and thumbnails for web, and compare images.
  
  My infrastructure is targeted to __Ubuntu 16.04__ machines with last __php7.4__ installed from [ppa:ondrej/php](https://launchpad.net/~ondrej/+archive/ubuntu/php)
 
-## Dependencies
-It needs __rsvg-convert__ to convert svg images nicely. Also need __compare__ to make image comparisons.
-You can install these dependencies in Ubuntu 16.04 with the following commands.
-```
-sudo apt install librsvg2-bin php-imagick
-```
-
-## Documentation
-The source code is documented using [phpDocumentor](http://docs.phpdoc.org/references/phpdoc/basic-syntax.html) style,
-so it should pop up nicely if you're using IDEs like [PhpStorm](https://www.jetbrains.com/phpstorm) or similar.
-
 ### Examples
 
 * [Create a super thumbnail](https://github.com/edwrodrig/image/blob/master/examples/create_super_thumbnail.php)
@@ -85,6 +74,36 @@ $image->cover(new Size(90, 0));
 ```
 composer require edwrodrig/image
 ```
+
+## Dependencies
+It needs __rsvg-convert__ to convert svg images nicely. Also need __compare__ to make image comparisons.
+You can install these dependencies in Ubuntu 16.04 with the following commands.
+```
+sudo apt install librsvg2-bin php-imagick
+```
+
+##My current system information
+Output of [system_info.sh](https://github.com/edwrodrig/image/blob/master/scripts/system_info.sh)
+```
+  Operating System: Ubuntu 16.04.6 LTS
+            Kernel: Linux 4.15.0-99-generic
+PHP 7.4.5 (cli) (built: Apr 19 2020 07:36:13) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Technologies
+    with Zend OPcache v7.4.5, Copyright (c), by Zend Technologies
+    with Xdebug v2.9.3, Copyright (c) 2002-2020, by Derick Rethans
+Version: ImageMagick 6.8.9-9 Q16 x86_64 2019-11-12 http://www.imagemagick.org
+Copyright: Copyright (C) 1999-2014 ImageMagick Studio LLC
+Features: DPC Modules OpenMP
+Delegates: bzlib cairo djvu fftw fontconfig freetype jbig jng jpeg lcms lqr ltdl lzma openexr pangocairo png rsvg tiff wmf x xml zlib
+
+rsvg-convert version 2.40.13
+```
+
+## Documentation
+The source code is documented using [phpDocumentor](http://docs.phpdoc.org/references/phpdoc/basic-syntax.html) style,
+so it should pop up nicely if you're using IDEs like [PhpStorm](https://www.jetbrains.com/phpstorm) or similar.
+
 
 ## Testing
 The test are built using PhpUnit. It generates images and compare the signature with expected ones. Maybe some test fails due metadata of some generated images, but at the moment I haven't any reported issue.
