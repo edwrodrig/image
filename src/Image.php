@@ -281,6 +281,29 @@ class Image
     }
 
     /**
+     * Crop an image
+     *
+     * It is useful to transform with dpi and other units.
+     * @api
+     * @param float $x left coordinate
+     * @param float $y top coordinate
+     * @param float $width width area to crop
+     * @param float $height height area to crop
+     * @param float|int $resolution how many pixels per unit, if you use inches then use here the dpi
+     * @return $this
+     */
+    public function cropImage(float $x, float $y, float $width, float $height, float $resolution = 1.0) {
+        $x_px = intval(ceil($x * $resolution));
+        $y_px = intval(ceil($y * $resolution));
+        $width_px = intval(ceil($width * $resolution));
+        $height_px = intval(ceil($height * $resolution));
+
+        $this->imagick->cropImage($width_px, $height_px, $x_px, $y_px);
+
+        return $this;
+    }
+
+    /**
      * Makes the image to cover a rectangle.
      *
      * The dimension that exceeds the rectangle area will be centered.
