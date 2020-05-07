@@ -392,6 +392,45 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
+     * @throws WrongFormatException
+     */
+    public function testRotateClockwise()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/goku.jpg');
+        $image->rotateClockwise();
+        $image->writeImage($this->root->url() .'/out.jpg');
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/goku_rotate_clockwise.jpg',
+            $this->root->url() .'/out.jpg'
+        );
+    }
+
+    /**
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws WrongFormatException
+     */
+    public function testRotateLossless()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
+        $image->getImagickImage()->setImageFormat('BMP');
+        $expectedBlob = $image->getBlob();
+        $image->rotateClockwise();
+        $image->rotateClockwise();
+        $image->rotateClockwise();
+        $image->rotateClockwise();
+
+        $rotatedBlob = $image->getBlob();
+
+        $this->assertEquals($expectedBlob, $rotatedBlob);
+    }
+
+    /**
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws InvalidSizeException
      * @throws WrongFormatException
      */

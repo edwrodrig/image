@@ -253,6 +253,17 @@ class Image
     }
 
     /**
+     * Rotate image.
+     *
+     * Rotate clockwise 90 degrees
+     * @return $this
+     */
+    public function rotateClockwise() : Image {
+        $this->imagick->rotateImage(new ImagickPixel(), 90);
+        return $this;
+    }
+
+    /**
      * Applies a color overlay to the image.
      *
      * It is used to colorize white silhouettes. For example, a white square is colorized to a red square.
