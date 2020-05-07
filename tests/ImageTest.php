@@ -494,4 +494,24 @@ class ImageTest extends TestCase
         );
     }
 
+    /**
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws WrongFormatException
+     */
+    public function testOptimizeEnhanceDocument()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/mindprint.jpg');
+        $image->enhanceDocument();
+        $image->optimizeDocument();
+
+        $image->writeImage($this->root->url() .'/out.jpg');
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/mindprint.jpg',
+            $this->root->url() .'/out.jpg'
+        );
+    }
+
 }

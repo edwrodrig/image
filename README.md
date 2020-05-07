@@ -18,8 +18,9 @@ Library to create optimized images and thumbnails for web, and compare images.
  * Optimize for web to meet the [PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights) suggestions about [optimizing images](https://developers.google.com/speed/docs/insights/OptimizeImages).
  * Create small preview thumbnails of about <1Kb suitable for database columns.
  * Compare images to detect duplicates.
+ * Enhance document images (diagrams, text, lineart)
  
- My infrastructure is targeted to __Ubuntu 16.04__ machines with last __php7.2__ installed from [ppa:ondrej/php](https://launchpad.net/~ondrej/+archive/ubuntu/php)
+ My infrastructure is targeted to __Ubuntu 16.04__ machines with last __php7.4__ installed from [ppa:ondrej/php](https://launchpad.net/~ondrej/+archive/ubuntu/php)
 
 ## Dependencies
 It needs __rsvg-convert__ to convert svg images nicely. Also need __compare__ to make image comparisons.
@@ -40,6 +41,11 @@ so it should pop up nicely if you're using IDEs like [PhpStorm](https://www.jetb
   ⇨
   <img alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_thumb.jpg">
 
+* [Enhance document](https://github.com/edwrodrig/image/blob/master/examples/enhance_document.php)
+
+  <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/mindprint.jpg">
+  ⇨
+  <img width="100" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/mindprint.jpg">
   
     
 

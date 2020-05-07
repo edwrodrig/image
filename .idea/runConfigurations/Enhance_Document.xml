@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Enhance Document" type="PhpLocalRunConfigurationType" factoryName="PHP Console" folderName="Examples" path="$PROJECT_DIR$/examples/enhance_document.php">
+    <method v="2" />
+  </configuration>
+</component>
