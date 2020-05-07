@@ -253,9 +253,9 @@ class Image
     }
 
     /**
-     * Rotate image.
+     * Rotate image clockwise 90 degrees
      *
-     * Rotate clockwise 90 degrees
+     * @api
      * @return $this
      */
     public function rotateClockwise() : Image {
