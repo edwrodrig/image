@@ -60,6 +60,39 @@ class ImageTest extends TestCase
 
     /**
      * @throws ImagickException
+     */
+    public function testCreateSuperThumbnailFromBlob()
+    {
+        $blob = file_get_contents(__DIR__ . '/files/original/goku.jpg');
+        $image = Image::createFromBlob($blob);
+        $image->makeSuperThumbnail(100, 100);
+        $image->writeImage($this->root->url() .'/out.jpg');
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/goku_thumb.jpg',
+            $this->root->url() .'/out.jpg'
+        );
+    }
+
+    /**
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws WrongFormatException
+     */
+    public function testCreateFromFileWrongImageFormat()
+    {
+        $this->expectException(WrongFormatException::class);
+        try {
+            Image::createFromFile(__FILE__);
+        } catch ( WrongFormatException $e ) {
+            $this->assertEquals("text/x-php", $e->getMimeType());
+            throw $e;
+        }
+
+    }
+
+    /**
+     * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
      * @throws WrongFormatException
@@ -308,6 +341,57 @@ class ImageTest extends TestCase
      * @throws ImagickException
      * @throws ConvertingSvgException
      * @throws InvalidImageException
+     * @throws WrongFormatException
+     */
+    public function testCover0x90()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
+        $image->cover(new Size(0, 90));
+        $image->writeImage($this->root->url() .'/out.png');
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/ssj_cover_0_90.png',
+            $this->root->url() .'/out.png'
+        );
+    }
+
+    /**
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws WrongFormatException
+     */
+    public function testCover90x0()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
+        $image->cover(new Size(90, 0));
+        $image->writeImage($this->root->url() .'/out.png');
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/ssj_cover_90_0.png',
+            $this->root->url() .'/out.png'
+        );
+    }
+
+    /**
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws WrongFormatException
+     */
+    public function testCover0x0()
+    {
+        $this->expectException(ImagickException::class);
+        $this->expectExceptionMessage("Invalid image geometry");
+        $image = Image::createFromFile(__DIR__ . '/files/original/ssj.png');
+        $image->cover(new Size(0, 0));
+
+    }
+
+    /**
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
      * @throws InvalidSizeException
      * @throws WrongFormatException
      */
@@ -322,6 +406,21 @@ class ImageTest extends TestCase
             __DIR__ . '/files/expected/favicon_contain_background_20_20.png',
             $this->root->url() .'/out.png'
         );
+    }
+
+    /**
+     * @throws ConvertingSvgException
+     * @throws ImagickException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
+     * @throws WrongFormatException
+     */
+    public function testContainInvalidSize()
+    {
+        $this->expectException(InvalidSizeException::class);
+        $image = Image::createFromFile(__DIR__ . '/files/original/favicon.png');
+        $image->contain(new Size(0, 132), 'red');
+
     }
 
     /**
@@ -512,6 +611,18 @@ class ImageTest extends TestCase
             __DIR__ . '/files/expected/mindprint.jpg',
             $this->root->url() .'/out.jpg'
         );
+    }
+
+    /**
+     * @throws ConvertingSvgException
+     * @throws ImagickException
+     * @throws InvalidImageException
+     * @throws WrongFormatException
+     */
+    public function testGetBlob()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/mindprint.jpg');
+        $this->assertEquals($image->getImagickImage()->getImageBlob(), $image->getBlob());
     }
 
 }

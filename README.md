@@ -46,8 +46,40 @@ so it should pop up nicely if you're using IDEs like [PhpStorm](https://www.jetb
   <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/mindprint.jpg">
   ⇨
   <img width="100" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/mindprint.jpg">
-  
-    
+
+* Contain
+
+  <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  ⇨
+  <img width="100" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_contain_200_200.png"> 
+```
+$image->contain(new Size(200, 200));
+```
+* Cover
+
+  <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  ⇨
+  <img width="100" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_200_200.png"> 
+```
+$image->cover(new Size(200, 200));
+```    
+* Cover with automatic width
+
+  <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  ⇨
+  <img width="100" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_0_90.png"> 
+```
+$image->cover(new Size(0, 90));
+```
+* Cover with automatic height
+
+  <img width="100" alt="Original" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/original/ssj.png">
+  ⇨
+  <img width="100" alt="Target" src="https://raw.githubusercontent.com/edwrodrig/image/master/tests/files/expected/ssj_cover_90_0.png"> 
+```
+$image->cover(new Size(90, 0));
+```    
+
 
 ## Composer
 ```

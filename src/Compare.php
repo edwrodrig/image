@@ -88,15 +88,26 @@ class Compare
          *  similar or 1 if they are dissimilar.
          */
         if ( $command->getExitCode() === 0 || $command->getExitCode() === 1 ) {
-            if (preg_match('/[-+]?[0-9]*\.?[0-9]* \(([-+]?[0-9]*\.?[0-9]*)\)/', $command->getStdErrOrOut(), $matches)) {
-                $number = filter_var(trim($matches[1]), FILTER_VALIDATE_FLOAT);
-                if ($number !== FALSE) return $number;
-                else {
-                    throw new exception\CompareCommandException($command->getStdErrOrOut());
-                }
-            }
+            $number = $this->parseOutput($command->getStdErrOrOut());
+            if ( is_float($number) ) return $number;
+
         }
         throw new exception\CompareCommandException($command->getStdErrOrOut());
+    }
+
+    /**
+     * Parses the output of compare command
+     *
+     * @param string $output
+     * @return float|null
+     * @internal
+     */
+    public static function parseOutput(string $output) : ?float {
+        if (preg_match('/[-+]?[0-9]*\.?[0-9]* \(([-+]?[0-9]*\.?[0-9]*)\)/', $output, $matches)) {
+            $number = filter_var(trim($matches[1]), FILTER_VALIDATE_FLOAT);
+            if ($number !== FALSE) return $number;
+         }
+        return null;
     }
 
     /**

@@ -12,6 +12,17 @@ use PHPUnit\Framework\TestCase;
 class CompareTest extends TestCase
 {
 
+    public function testDoesExecutableNotExist() {
+        $converter = new Compare;
+        $converter->setExecutable('unexistant_executable');
+        $this->assertFalse($converter->doesExecutableExists());
+    }
+
+    public function testDoesExecutableExist() {
+        $converter = new Compare;
+        $this->assertTrue($converter->doesExecutableExists());
+    }
+
     /**
      * @throws ImagickException
      * @throws CompareCommandException
@@ -110,6 +121,14 @@ class CompareTest extends TestCase
 
         $compare = new Compare;
         $compare->runCompareCommand('unexistant_image_1', 'unexistant_image_2');
+    }
+
+    public function testParseOutputNice() {
+        $this->assertEquals(0.866025, Compare::parseOutput("56755 (0.866025)"));
+    }
+
+    public function testParseOutputInvalid() {
+        $this->assertNull(Compare::parseOutput("ddghsdthy"));
     }
 
 }
