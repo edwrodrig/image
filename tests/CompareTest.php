@@ -91,7 +91,7 @@ class CompareTest extends TestCase
     {
         $compare = new Compare;
 
-        $this->assertEquals(0.866025,
+        $this->assertGreaterThanOrEqual(0.866025,
             $compare->runCompareCommand(
                 __DIR__ . '/files/original/dissimilar_1.png',
                 __DIR__ . '/files/original/dissimilar_2.png'

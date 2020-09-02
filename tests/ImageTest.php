@@ -763,4 +763,29 @@ class ImageTest extends TestCase
         );
     }
 
+    public function testNormalizeOrientationFlipped()
+    {
+        $image = Image::createFromFile(__DIR__ . '/files/original/flipped.jpg');
+        Image::normalizeOrientation($image->getImagickImage());
+//        $this->assertEquals(0, $image->getImagickImage()->getImageOrientation());
+        $image->writeImage($this->root->url() . '/out.jpg');
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/flipped_normalized_orientation.jpg',
+            $this->root->url() . '/out.jpg'
+        );
+
+    }
+
+    public function testNormalizeOrientationNotFlipped() {
+        $image = Image::createFromFile(__DIR__ . '/files/original/mindprint.jpg');
+        Image::normalizeOrientation($image->getImagickImage());
+        $image->writeImage($this->root->url() . '/out.jpg');
+
+        $this->assertImageEquals(
+            __DIR__ . '/files/expected/mindprint_normalized_orientation.jpg',
+            $this->root->url() . '/out.jpg'
+        );
+    }
+
 }
